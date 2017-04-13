@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>StocksTrend.in</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="/static/adminsite/css/w3.css">
+      <link rel="stylesheet" href="/static/adminsite/css/w3-theme-black.css">
+      <link rel="stylesheet" href="/static/adminsite/css/css_new.css">
+      <link rel="stylesheet" href="/static/adminsite/css/font-awesome.css">
+
+      <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+   <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
+
+   <link rel='stylesheet'  type='text/css' href='https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css'>
+
+   <link rel='stylesheet' href='/static/adminsite/css/style_admin.css'>
+
+      <style>
+         section {
+         display: none;
+         padding: 20px 0 0;
+         border-top: 1px solid #ddd;
+      }
+
+
+      #mySidebar a.active {
+    background-color: #4CAF50;
+    color: #ffffff;
+ }
+      </style>
+   </head>
+
+   <body>
+      <!-- Navbar -->
+      <div class="w3-top">
+         <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+            <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium">WELCOME TO STOCKSTREND.IN</a>
+            <a href="javascript:logout()" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white" style="float: right">Logout</a>
+         </div>
+      </div>
+
+      <!-- Sidebar -->
+      <nav class="w3-sidebar w3-bar-block w3-collapse w3-medium w3-theme-l5 w3-animate-left" style="z-index:3;width:150px;margin-top:43px;" id="mySidebar">
+         <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+            <i class="fa fa-remove"></i>
+         </a>
+         <h5 class="w3-bar-item"><b>CALLS</b></h5>
+         <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content1')"><strong>Weekly Call</strong></a>
+         <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content2')"><strong>Historical Calls</strong></a>
+         <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content3')"><strong>Analysis</strong></a>
+         
+         <br><h4 class="w3-bar-item"><b>TRAINING</b></h4>
+         <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content4')"><strong>Registration</strong></a>
+         <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content5')"><strong>Indicator</strong></a>
+         <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content6')"><strong>Message</strong></a>
+      </nav>
+
+      <!-- Overlay effect when opening sidebar on small screens -->
+      <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+      <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+      <div class="w3-main" style="margin-left:150px">
+
+         <div class="w3-row w3-padding-64">
+            <div id="mainLeaderboard" class="w3-twothird w3-container" style="width: 90%">
+               <section id="content1">
+                  <div class="container">
+                     <div><strong>List of Weekly Calls</strong></div><br>
+                     <div id="table" class="table-editable">
+                        <span class="table-add glyphicon glyphicon-plus"></span>
+                        <table class="table">
+                           <tr>
+                              <th name="id">ID</th>
+                              <th name="scripts">Script</th>
+                              <th name="buysell">Action</th>
+                              <th name="entryprice">EntryPrice</th>
+                              <th name="stoploss">Stoploss</th>
+                              <th name="targetprice">Target</th>
+                              <th name="calldate">Date</th>
+                              <th name="active">Status</th>
+                              <th name="result">Result</th>
+                              <th></th>
+                              <th></th>
+                           </tr>
+                
+                           <!-- This is our clonable table line -->
+                           <tr class="hide">
+                              <td class="intro-text-light">0</td>
+                              <td contenteditable="true" class="intro-text-light">script</td>
+                              <td class="intro-text-light"><select id="bs"><option value='B'>Buy</option><option value='S'>Sell</option></select></td>
+                              <td contenteditable="true" class="intro-text-light">0</td>
+                              <td contenteditable="true" class="intro-text-light">0</td>
+                              <td contenteditable="true" class="intro-text-light">0</td>
+                              <td contenteditable="true" class="calldate intro-text-light">
+                                 <div class="date" contenteditable="false"></div>
+                                 <input type="hidden" class="datepicker" />
+                              </td>
+                              <td class="intro-text-light"><select id="activeexpired"><option value='A'>Active</option><option value='E'>Expired</option></select></td>
+                              <td class="intro-text-light"><select id="result"><option value='O'>Ongoing Call</option><option value='P'>Target Hit</option><option value='L'>Stoploss Hit</option></select></td>
+                              <td><span class="table-remove glyphicon glyphicon-remove"></span></td>
+                              <td><span class="table-up glyphicon glyphicon-arrow-up"></span><span class="table-down glyphicon glyphicon-arrow-down"></span></td>
+                           </tr>
+                        </table>
+                     </div>
+      
+                     <button id="export-btn" class="btn btn-primary">&nbsp; Save Calls &nbsp;</button>
+                     <p id="export"></p>
+                  </div>
+               </section>
+    
+               <section id="content2">
+                  <div><strong>List of Historical Calls</strong></div><hr>
+                  <table id="example" class="display" cellspacing="0" width="100%">
+                     <thead>
+                        <tr>
+                           <th>ID</th>
+                           <th>Script</th>
+                           <th>Action</th>
+                           <th>EntryPrice</th>
+                           <th>Stoploss</th>
+                           <th>Target</th>
+                           <th>Date</th>
+                           <th>Status</th>
+                           <th>Result</th>
+                        </tr>
+                     </thead>
+                     <tfoot>
+                        <tr>
+                           <th>ID</th>
+                           <th>Script</th>
+                           <th>Action</th>
+                           <th>EntryPrice</th>
+                           <th>Stoploss</th>
+                           <th>Target</th>
+                           <th>Date</th>
+                           <th>Status</th>
+                           <th>Result</th>
+                        </tr>
+                     </tfoot>
+                  </table>
+               </section>
+    
+               <section id="content3">
+                  <div><strong>Analysis</strong></div><hr>
+                  <form id='myForm' name="myForm" action="javascript:;" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                     <table style="min-width: 100%">
+                        <tr>
+                           <td style="width:60%">
+                              <div style="float:left">
+                                 <img id="preview" src="placeholder.png" height="400px" width="100%" />
+                                 <input type="file" name="file" id="file" onchange="previewImage(this)" accept="image/*"/>
+                              </div>
+                           </td>
+                           <td style="width:40%;padding-top:0;vertical-align: top;">
+                              <div>
+                                 <input type="hidden" name="id" id="id" value="0" />
+                                 <input type="hidden" name="filename" id="filename" value="" />
+                                 <label for="script" style="width:35%"> Script: </label>
+                                 <span><input type="text" name="script" id="script" value=""  placeholder="Script" required /></span>
+                              </div>
+                              <div>
+                                 <label for="action" style="width:35%"> Action: </label>
+                                 <span><select id="action" name="action"><option value='B'>Buy</option><option value='S'>Sell</option></select></span>
+                              </div>
+                              <div>
+                                 <label for="entryprice" style="width:35%"> EntryPrice: </label>
+                                 <span><input type="text" name="entryprice" id="entryprice" value="" placeholder="Entry Price"/ required=""></span>
+                              </div>
+                              <div>
+                                 <label for="stoploss" style="width:35%"> Stoploss: </label>
+                                 <span><input type="text" name="stoploss" id="stoploss" value=""  placeholder="Stoploss" required /></span>
+                              </div>
+                              <div>
+                                 <label for="target" style="width:35%"> Target: </label>
+                                 <span><input type="text" name="target" id="target" value=""  placeholder="Target" required /></span>
+                              </div>
+                              <div>
+                                 <label for="date" style="width:35%"> Date: </label>
+                                 <span><input type="text" name="calldate" id="datepicker" value=""  placeholder=""  required/></span>
+                              </div>
+                              <div>
+                                 <label for="action" style="width:35%"> Status: </label>
+                                 <span><select id="status" name="status"><option value='A'>Active</option><option value='E'>Expired</option></select></span>
+                              </div>
+                              <div>
+                                 <label for="comments" style="width:35%"> Commnets: </label>
+                                 <span><textarea row="6" cols="25" name="comments" required></textarea></span>
+                              </div>
+                              <br>
+                              <div><span><label for="comments" style="width:35%">&nbsp;</label><input type=submit id=submitButton value='Save Analysis' class="btn btn-primary"/> &nbsp;&nbsp;<input type=reset id=resetButton value='Reset' class="btn btn-primary" onclick="javascript:clearpreview();return true" /></span></div>
+                           </td>
+                        </tr>
+                     </table>
+                  </form>
+                  <br>
+                  <div><strong>List of Analysis</strong></div>
+                  <hr>
+                  <table id="analysislist" class="display" cellspacing="0" width="100%">
+                     <thead>
+                        <tr>
+                           <th>ID</th>
+                           <th>Script</th>
+                           <th>Action</th>
+                           <th>EntryPrice</th>
+                           <th>Stoploss</th>
+                           <th>Target</th>
+                           <th>Date</th>
+                           <th>Image</th>
+                           <th>Status</th>
+                           <th>Edit</th>
+                        </tr>
+                     </thead>
+                     <tfoot>
+                        <tr>
+                           <th>ID</th>
+                           <th>Script</th>
+                           <th>Action</th>
+                           <th>EntryPrice</th>
+                           <th>Stoploss</th>
+                           <th>Target</th>
+                           <th>Date</th>
+                           <th>Image</th>
+                           <th>Status</th>
+                           <th>Edit</th>
+                        </tr>
+                     </tfoot>
+                  </table>
+               </section>
+    
+               <section id="content4">
+                  <p>
+                     Bacon ipsum dolor sit amet landjaeger sausage brisket, jerky drumstick fatback boudin ball tip turducken. Pork belly meatball t-bone bresaola tail filet mignon kevin turkey ribeye shank flank doner cow kielbasa shankle. Pig swine chicken hamburger, tenderloin turkey rump ball tip sirloin frankfurter meatloaf boudin brisket ham hock. Hamburger venison brisket tri-tip andouille pork belly ball tip short ribs biltong meatball chuck. Pork chop ribeye tail short ribs, beef hamburger meatball kielbasa rump corned beef porchetta landjaeger flank. Doner rump frankfurter meatball meatloaf, cow kevin pork pork loin venison fatback spare ribs salami beef ribs.
+                  </p>
+                  <p>
+                     Jerky jowl pork chop tongue, kielbasa shank venison. Capicola shank pig ribeye leberkas filet mignon brisket beef kevin tenderloin porchetta. Capicola fatback venison shank kielbasa, drumstick ribeye landjaeger beef kevin tail meatball pastrami prosciutto pancetta. Tail kevin spare ribs ground round ham ham hock brisket shoulder. Corned beef tri-tip leberkas flank sausage ham hock filet mignon beef ribs pancetta turkey.
+                  </p>
+               </section>
+            </div>
+         </div>
+         <footer id="myFooter">
+            
+            <div class="w3-container w3-theme-l1">
+               <p>Copyright &copy; Stockstrend.in 2017</p>
+            </div>
+         </footer>
+
+         <!-- END MAIN -->
+      </div>
+
+      <script>
+         // Get the Sidebar
+         var mySidebar = document.getElementById("mySidebar");
+
+         // Get the DIV with overlay effect
+         var overlayBg = document.getElementById("myOverlay");
+
+         // Toggle between showing and hiding the sidebar, and add overlay effect
+         function w3_open() {
+            if (mySidebar.style.display === 'block') {
+               mySidebar.style.display = 'none';
+               overlayBg.style.display = "none";
+            } else {
+               mySidebar.style.display = 'block';
+               overlayBg.style.display = "block";
+            }
+         }
+
+         // Close the sidebar with the close button
+         function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+         }
+      </script>
+   </body>
+   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+   <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+   <script src='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
+      <script src='https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js'></script>
+
+<script src="/static/adminsite/js/index_admin.js"></script>
+</html>

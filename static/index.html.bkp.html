@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<!-- Template by Quackit.com -->
+<!-- Images by various sources under the Creative Commons CC0 license and/or the Creative Commons Zero license. 
+   Although you can use them, for a more unique website, replace these images with your own. -->
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="referrer" content="origin">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+      
+      <title>StocksTrend - Advanced Technical Analysis Training</title>
+      
+      <!-- Bootstrap Core CSS -->
+      <link href="static/stockstrend/css/bootstrap.min.css" rel="stylesheet">
+    	<link href="static/stockstrend/css/font-awesome.min.css" rel="stylesheet">
+    	<link rel="stylesheet" href="static/stockstrend/css/jquery.modal.min.css" type="text/css" media="screen" /> 
+    
+    	<!-- Custom CSS: You can use this stylesheet to override any Bootstrap styles and/or apply your own styles -->
+      <link href="static/stockstrend/css/custom.css" rel="stylesheet">
+          
+      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!-- WARNING: Respond.js doesn't work if you view the page via  -->
+      <!--[if lt IE 9]>
+         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+      
+      <!-- Custom Fonts from Google -->
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+      <link rel="stylesheet" type="text/css" media="all" href="static/stockstrend/fancybox/jquery.fancybox.css">    
+   </head>
+      
+   <body>
+      
+      <!-- Navigation -->
+      <nav id="siteNav" class="navbar navbar-default navbar-fixed-top" role="navigation">
+         <div class="container">
+            <!-- Logo and responsive toggle -->
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+               </button>
+               <a class="navbar-brand" href="#">
+                  <span class="glyphicon glyphicon-fire"></span> 
+                  STOCKSTREND.IN
+               </a>
+            </div>
+                  
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="navbar">
+               <ul class="nav navbar-nav navbar-right" >
+                  <li class="active disabled" id="li_home">
+                     <a href="#" onclick="javascript:navigation('home');return false;" >Home</a>
+                  </li>
+                  <li class="disabled" id="li_training">
+                     <a href="#" onclick="javascript:navigation('training');return false;" >Training</a>
+                  </li>
+      				<li class="dropdown disabled" id="li_indicator">
+      					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products <span class="caret"></span></a>
+      					<ul class="dropdown-menu" aria-labelledby="about-us">
+      						<li><a href="#" onclick="javascript:navigation('indicator');return false;" >Indicator</a></li>
+      					</ul>
+      				</li>
+                  <li class="disabled" id="li_contactus">
+                     <a href="#" onclick="javascript:navigation('contactus');return false;">Contact</a>
+                  </li>
+               </ul>
+            </div><!-- /.navbar-collapse -->
+         </div><!-- /.container -->
+      </nav>
+      
+      <!-- Header -->
+      <header>
+      <div class="header-content">
+         <div class="header-content-inner">
+            <div class="row" style="margin-right:0px">
+               <div class="col-sm-8">
+                  <h1>Chase your dreams</h1>
+                  <p>Learn to Trade by applying Advanced Technical Analysis</p>
+      			</div>
+      			<div class="col-sm-4">
+      				<h3 class="section-heading" style="margin-top:60px;color: rgba(208,9%,89%,.9);text-shadow: #EEEEEE 0 0 10px;font-weight:bold;">Weekly Calls (01/03/2017)</h3>
+      				<div class="scrolling-div" id="scrollingdiv">
+                     <ul class="scrolling-div-content"></ul>
+                  </div>
+                  <!-- Link to open the modal -->
+                  <h4 class="text-light" style="margin-top:20px;font-weight:bold;"><a href="#ex1" rel="modal:open">Last Week Performance</a></h4>
+                  <!--h4 class="text-light" style="margin-top:20px;font-weight:bold;"><a href="#" class="performancemodal" data-modal-id="ex-modal-register">Last Week Performance</a></h4-->
+                  
+               </div>
+      		</div>
+      		<div class="row">
+               <a href="#" onclick="javascript:navigation('introduction');return false;" class="btn btn-primary btn-lg">Engage Now</a>
+            </div>
+    			<div id="ex1" class="modal" style="display:none;">
+    				<div id="performancediv" class="divtable accordion-xs">
+                  <div class="tr headings">
+                     <div class="th stock">Stocks</div>
+                     <div class="th stdate">Date</div>
+                     <div class="th stentry">Entry</div>
+                     <div class="th ststoploss">Stoploss</div>
+                     <div class="th sttarget">Target</div>
+                     <div class="th stgain">Gain/Loss</div>
+                  </div>
+               </div>
+      		</div>
+         </div>
+      </div>
+      </header>
+      
+      <!-- Intro Section -->
+      <section class="intro" id="introduction">
+         <div class="container">
+            <div class="row">
+    			  	<div class="col-md-5">
+                  <!--span class="glyphicon glyphicon-apple" style="font-size: 60px"></span-->
+                  <h2 class="section-heading intro-text-light">Our <b>MISSION</b></h2>
+                  <p class="intro-text-light" style="text-align:left">Charts are true reflection of the total emotions of the the market participants and the same is expressed in the price level. A chart is not something that is generated by the brokerage house. This training will teach all the participants on how to look at the chart, how to find out the trends in the market as trend is your friend.</p>
+                      	
+                  <p class="intro-text-light" style="text-align:left">Learn all aspect of real world trading from professional, experienced traders by applying advanced technical analysis technique. You will learn unique techniques to identify high probability chart patterns and how to capitilize the favorable condition by knowing how to enter, manage and exit trade appropiately.</p>
+      			</div>
+    				<div class="col-md-7">
+                  <!--span class="glyphicon glyphicon-apple" style="font-size: 60px"></span-->
+    					<h2 class="section-heading intro-text-light">Our <b>OFFERINGS</b></h2>
+    					<div class="row m20">
+    						<div class="col-md-6">
+    						 	<a href="#" tgt="_blank" onclick="javascript:navigation('training');return false;">
+    							  	<div class="offerings m20">
+    								 	<h4><i class="fa fa-line-chart m10" aria-hidden="true"></i><b>ADAVNCED TRAINING</b></h4>
+    									<p> Advanced Technical Analysis Training</p>
+    								</div>
+    							</a>
+    						</div>
+    						<div class="col-md-6">
+    						 	<a href="#" tgt="_blank" onclick="javascript:toggleindicator('longtermindicator');return false;">
+    							  	<div class="offerings m20">
+    								 	<h4><i class="fa fa-line-chart m10" aria-hidden="true"></i><b>LONG TERM INDICATOR</b></h4>
+    									<p> Long Term Buy/Sell Indicator</p>
+    								</div>
+    							</a>
+    						</div>
+    					</div>
+    					<div class="row m20">
+    						<div class="col-md-6">
+    						 	<a href="#" tgt="_blank" onclick="javascript:toggleindicator('longtermindicator');return false;">
+    							  	<div class="offerings m20">
+    								 	<h4><i class="fa fa-line-chart m10" aria-hidden="true"></i><b>SHORT TERM INDICATOR</b></h4>
+    									<p> Short Term Buy/Sell Indicator</p>
+    								</div>
+    							</a>
+    						</div>
+    						<div class="col-md-6">
+    						 	<a href="#" tgt="_blank" onclick="javascript:toggleindicator('longtermindicator');return false;">
+    							  	<div class="offerings m20">
+    								 	<h4><i class="fa fa-line-chart m10" aria-hidden="true"></i><b>INTRADAY INDICATOR</b></h4>
+    									<p> Intraday Buy/Sell Indicator</p>
+    								</div>
+    							</a>
+    						</div>
+    					</div>
+               </div>				
+            </div>
+            <br>
+            <hr>
+            <br>
+            <div class="row"><h2 class="section-heading intro-text-light">Our <b>ANALYSIS</b></h2></div>
+            <div id="analysisdiv" class="row"></div>
+         </div>
+      </section>
+      
+      <!-- Content 1 -->
+      <section class="content" id="training">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-6">
+                  <h2 class="section-heading intro-text-light"><b>Advanced Training</b></h2>
+    					<p class="intro-text-light" style="text-align:left">Welcome to our advanced technical analysis course. You will learn some advanced technique to analyze charts using RSI and Candle Stick. This includes how to use trendlines, candlestick and chart patterns, reversal pattern as part of a successful strategy. We expect the participants to be familiar with the basic technical analysis as this course will teach you some advanced technique and practical aspects of real world trading, with an emphasis on trade management, risk management and trading psychology</p>
+                  
+                  <p class="intro-text-light"> Candle Stick Patterns</p>
+                  <p class="intro-text-light">
+      					<ul> 
+      					   <li class="intro-text-light">Spining Top</li>
+                        <li class="intro-text-light">Doji</li>
+                        <li class="intro-text-light">Double Doji</li>
+      						<li class="intro-text-light">Hammer with Volume</li>
+      						<li class="intro-text-light">Bulling / Bearish Engulfing</li>
+                     </ul>
+                  </p>
+                  <p class="intro-text-light"> RSI Patterns</p>
+                  <p class="intro-text-light">
+      					<ul>
+    						   <li class="intro-text-light">RSI Divergence</li>
+      						<li class="intro-text-light">RSI Trendlines</li>
+      						<li class="intro-text-light">RSI ...</li>
+      						<li class="intro-text-light">RSI ...</li>
+      					</ul>
+      				</p>
+      				<br>
+                  <a href="#modal-register" class="btn btn-primary btn-lg launch-modal" rel="modal:open" >Register</a>
+                  <--a href="#" class="btn btn-primary btn-lg launch-modal" rel="modal:open" data-modal-id="modal-register">Register</a-->
+               </div> 
+      			<div class="col-sm-6" id="trainingimg">
+                  <!--img class="img-responsive img-circle center-block" src="images/microphone.jpg" alt=""-->
+      				<!--img class="img-responsive center-block" src="images/main-bg.jpg" alt=""-->
+      				<h2 class="section-heading intro-text-light" style="text-align:center"><b>Course Fees</b></h2>
+      				<p class="intro-text-light">Course fees is INR 50,000/- per person. Please transfer the money in the below bank account. Once payment is deposited, then please submit the details of the same by clicking on the Register button.</p>
+      				<div class="table-2">
+      					<table width="100%">
+      						<tbody>
+      							<tr>
+      								<td class="text-muted" align="left">
+                                 <strong>STATE BANK OF INDIA</strong><br>
+      									<span> Account Name : XXXX </span><br>
+      									<span><strong>ACCOUNT NO. :</strong> XXXX</span>
+                              </td>
+      								<td align="left">
+                                 &nbsp;<img class="aligncenter size-full wp-image-1109" src="/static/stockstrend/images/sbi.png" alt="sbi" width="250" height="100" srcset="/static/stockstrend/images/sbi-200x120.png 200w, /static/stockstrend/images/sbi.png 100w" sizes="(max-width: 250px) 100vw, 250px">
+                              </td>
+      							</tr>
+      							<tr>
+      								<td class="text-muted" align="left">
+                                 <strong>ICICI Bank</strong><br>
+      									<span> Account Name : XXXX </span><br>
+      									<span><strong>ACCOUNT NO. :</strong> XXXX</span>
+                              </td>
+      								<td align="left">
+                                 &nbsp;<img class="aligncenter size-full wp-image-1109" src="/static/stockstrend/images/icici.jpg" alt="sbi" width="250" height="100" srcset="/static/stockstrend/images/icici-logo-200x120.jpeg 200w, /static/stockstrend/images/icici.jpg 1000w" sizes="(max-width: 250px) 100vw, 250px">
+                              </td>
+      							</tr>
+      						</tbody>
+      					</table>
+      				</div>	
+               </div>  
+
+               <!-- MODAL -->
+               <div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true" style="display: none;">
+                  <div class="modal-dialog">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal"></button>
+                           <h3 class="modal-title" id="modal-register-label">Training Registration</h3>
+                           <p style="color:red">Fill in the form below to get registered for the training. You will get the conformation email within 1 working day after successful submission of the registration form.</p>
+                        </div>
+                    
+                        <div class="modal-body">
+                           <form role="form" action="" method="post" class="registration-form">
+                              <div class="form-group">
+                                 <label class="sr-only" for="form-name">Name</label>
+                                 <input name="form-name" placeholder="Name..." class="form-name form-control" id="form-name" type="text">
+                              </div>
+                              <div class="form-group">
+                                 <label class="sr-only" for="form-email">Email</label>
+                                 <input name="form-email" placeholder="Email..." class="form-email form-control" id="form-email" type="text">
+                              </div>
+                              <div class="form-group">
+                                 <label class="sr-only" for="form-contact">Contact</label>
+                                 <input name="form-contact" placeholder="Contact..." class="form-contact form-control" id="form-contact" type="text">
+                              </div>
+                              <div class="form-group">
+                                 <label class="sr-only" for="form-trasaction-no">Transaction No</label>
+                                 <input name="form-transaction-no" placeholder="Transaction no..." class="form-transaction-no form-control" id="form-transaction-no" type="text">
+                              </div>
+                              <div class="form-group">
+                                 <label class="sr-only" for="form-transaction-date">Transaction Date</label>
+                                 <text name="form-transaction-date" placeholder="Transaction Date..." class="form-transaction-date form-control" id="form-transaction-date"></text>
+                              </div>
+                              <button type="submit" class="btn btn-primary btn-sm">Register</button>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+
+
+                      
+               <!--   
+               <div id="loginmodal" style="display:none;">
+                  <h1>Registration</h1>
+                  <form id="loginform" name="loginform" method="post" action="index.html">
+                     <label for="username">Name:</label>
+                     <input type="text" name="username" id="username" class="logintxtfield" tabindex="1">
+            
+                     <label for="password">Email:</label>
+                     <input type="text" name="email" id="email" class="logintxtfield" tabindex="2">
+
+                     <label for="password">Contact No :</label>
+                     <input type="text" name="email" id="email" class="logintxtfield" tabindex="2">
+
+                      <label for="password">Transaction No</label>
+                     <input type="text" name="email" id="email" class="logintxtfield" tabindex="2">
+
+                      <label for="password">Transaction Date</label>
+                     <input type="text" name="email" id="email" class="logintxtfield" tabindex="2">
+            
+                     <div class="center"><input type="submit" name="loginbtn" id="loginbtn" class="btn btn-primary hidemodal" value="Register" tabindex="3"></div>
+                  </form>
+               </div-->
+               
+            </div>
+         </div>
+      </section>
+      
+      <!-- Content 2 -->
+      <section class="content content-2" id="indicator">
+         <div class="container">
+            <div class="row" id="longtermindicator">
+               <div class="col-sm-6">
+                  <h2 class="section-heading text-muted" style="text-align:center"><b>Buy/Sell Indicator</b></h2>
+                  <p class="lead text-muted">
+                     Long-term investments has the ability to attain small amounts of money over a longer period of time. The slow-but-steady pace of long-term investments allow for a much greater stability and a much lower risk than short-term investments. This indicator will generate bu/sell signal to help you manage your investment over longer period of time.
+                     <br>
+                     <br>
+                     The prerequisite for using this indicator is to have Metastock and daily data, so that the indicator can generate the signal on the latest data.
+                  </p>
+                  <a href="#" class="btn btn-default btn-lg">Buy Indicator</a>
+      				<br>
+      				<br>
+               </div>    
+               <div class="col-sm-6">
+                  <h2 class="section-heading text-muted" style="text-align:center"><b>Charges</b></h2>
+      				<p class="text-muted">Indicator cost is INR 25,000/- per indicator. Please transfer the money in the below bank account. Once payment is deposited, then please submit the details of the same by clicking on the Register button.</p>
+      				<div class="table-2">
+      					<table width="100%">
+      						<tbody>
+      							<tr>
+      								<td class="text-muted" align="left">
+                                 <strong>STATE BANK OF INDIA</strong><br>
+      									Current Account Name - XXXX<br>
+      									<strong>ACCOUNT NO. :</strong> XXXX
+                              </td>
+      							</tr>
+      							<tr><td>&nbsp;</td></tr>
+      							<tr>
+      								<td class="text-muted" align="left">
+                                 <strong>ICICI Bank</strong><br>
+      									Current Account Name - XXXX<br>
+      									<strong>ACCOUNT NO. :</strong> XXXX
+                              </td>
+      							</tr>
+      						</tbody>
+      					</table>
+      				</div>	
+               </div>               
+            </div>    
+         </div>
+      	<br>
+      	<!-- Promos -->
+         <div class="container-fluid">
+            <div class="row promo">
+               <a href="#" onclick="javascript:return false;"><div class="col-md-4 promo-item item-1"><h3>Long Term Indicator</h3></div></a>
+               <a href="#" onclick="javascript:return false;"><div class="col-md-4 promo-item item-2"><h3>Short Term Indicator</h3></div></a>
+          		<a href="#" onclick="javascript:return false;"><div class="col-md-4 promo-item item-3"><h3>Intraday Indicator</h3></div></a>
+            </div>
+         </div><!-- /.container-fluid -->
+      </section>    
+      
+      <section class="content contact" id="contactus">
+         <!-- Contact Us -->
+         <div class="container">
+            <div class="row"><h2 class="section-heading intro-text-light" style="text-align:center;">Contact Us</h2></div>
+            <div class="row m10">
+               <div class="col-md-4">
+      				<h4 class="section-heading intro-text-light" style="text-align:center;"><b>Better yet, see us in person!</b></h4>
+                  <div class="intro-text-light m20">
+      				  <p>We love our customer, so feel free call us @ <strong>+1(23)-456-7890</strong> during normal business hours. Otherwise write to us at <strong>info@stockstrend.in</strong></p>
+                  </div>
+                  <br>
+                  <h4 class="intro-text-light" style="text-align:left;"><b>Advanced Technical Analysis Training</b></h4>
+                  <div class="intro-text-light">
+                    <span>New Town, Action Area III,</span><br>
+                    <span>Kolkata, WB 700156, India</span>
+                  </div>
+                  <br>
+                  <h4 class="intro-text-light" style="text-align:left;"><b>Hours</b></h4>
+                  <div class="intro-text-light">
+                    <span>Monday - Friday : 9am - 5pm</span><br>
+                    <span>Saturday: By Appointment</span><br>
+                    <span>Sunday: Closed</span>
+                  </div>
+               </div>
+               <div class="col-md-8">
+                  <div id="inline">
+                     <h4 class="section-heading intro-text-light" style="text-align:center;"><b>Drop us a line!</b></h4>
+                     <form method="POST" action="http://formspree.io/sudipta2u@yahoo.co.in">      
+                        <div class="row">
+                           <div class="col-md-3"><label for="name">Your Name</label></div>
+                           <div class="col-md-9"><input type="name" id="name" name="name" class="txt"></div>
+                        </div>
+                        <div class="row">
+                           <div class="col-md-3"><label for="email">Your Email</label></div>
+                           <div class="col-md-9"><input type="email" id="email" name="email" class="txt"></div>
+                        </div>
+                        <div class="row">
+                           <div class="col-md-3"><label for="msg">Enter Message</label></div>
+                           <div class="col-md-9"><textarea id="msg" name="message" class="txtarea"></textarea></div>
+     		              </div>
+                        <div class="row">
+                           <div class="col-md-3"></div>
+                           <div class="col-md-9"><button type="submit" id="send">Send E-mail</button></div>
+                        </div>
+                     </form>
+                  </div>          
+               </div>
+            </div>
+         </div>
+      <!-- hidden inline form -->
+      </section>
+      	
+      <!-- Footer -->
+      <footer id="footernav" class="page-footer navbar-fixed-bottom">	
+         <hr>
+         <div class="intro-text-light"><h4><strong>Disclaimer</strong></h4>
+            This is a training website for Traders and Investors. The expressed views are purely based on the studies of Technical Analysis & are not recommended to trade in market. Anyone buying or selling securities based on the views of this site is solely responsible for their action and author of this site can not be held responsible or liable for any trade placed based on the views expressed in this site. 
+      	</div>
+         <div class="intro-text-light">
+        	   <ul class="footer-links">
+      			<li>Home</li>
+               <li>|</li>
+      			<li>Contact Us</li>
+               <li>|</li>
+               <li>FAQ</li>
+               <li>|</li>
+               <li>Privacy</li>
+            </ul>
+        	</div>
+         <!-- Copyright etc -->
+         <div class="small-print intro-text-light">
+            <div class="container"><p>Copyright &copy; Stockstrend.in 2017</p></div>
+         </div>
+      </footer>
+          
+      <!-- jQuery -->
+      <script src="static/stockstrend/js/jquery-1.11.3.min.js"></script>
+      
+      <!-- Bootstrap Core JavaScript -->
+      <script src="static/stockstrend/js/bootstrap.min.js"></script>
+      
+      <!-- Plugin JavaScript -->
+      <script src="static/stockstrend/js/jquery.easing.min.js"></script>
+          
+      <script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+      <script src="static/stockstrend/fancybox/jquery.fancybox.js?v=2.0.6"></script>
+          
+      <script type="text/javascript" charset="utf-8" src="static/stockstrend/js/jquery.leanModal.min.js"></script>
+      <!-- Custom Javascript -->
+      <script src="static/stockstrend/js/custom.js"></script>
+      <script src="static/stockstrend/js/jquery.modal.min.js" type="text/javascript" charset="utf-8"></script> 
+      <script src="static/stockstrend/js/modernizr.min.js"></script>
+   </body>
+</html>

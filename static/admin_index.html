@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html >
+   <head>
+      <meta charset="UTF-8">
+      <title>StocksTrend.in-Advanced Technical Analysis</title>
+  
+      <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+      <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
+      <link rel='stylesheet'  type='text/css' href='https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css'>
+      <link rel='stylesheet' href='/static/adminsite/css/style_admin.css'>
+
+      <style>
+         /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+         @import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800");
+         @import url("http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css");
+         *, *:before, *:after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+         }
+
+         html, body {
+            height: 100%;
+         }
+
+         body {
+            font: 14px/1 'Open Sans', sans-serif;
+            color: #555;
+            background: #eee;
+         }
+
+         .intro-text-light {
+            color: rgba(68,66,66,.5);
+         }   
+
+         h2 {
+            padding: 20px 0;
+            font-weight: 400;
+            text-align: center;
+         }
+
+         p {
+            margin: 0 0 20px;
+            line-height: 1.5;
+         }
+
+         main {
+            min-width: 320px;
+            max-width: 95%;
+            padding: 20px;
+            margin: 0 auto 30px auto;
+            background: #fff;
+         }
+
+         section {
+            display: none;
+            padding: 20px 0 0;
+            border-top: 1px solid #ddd;
+         }
+
+         label {
+            display: inline-block;
+            margin: 0 0 -1px;
+            padding: 15px 25px;
+            font-weight: 600;
+            text-align: center;
+            color: #bbb;
+            border: 1px solid transparent;
+         }
+
+         #content3 label{
+            display: inline-block;
+            margin: 0 0 -1px;
+            padding: 15px 25px;
+            font-weight: 600;
+            text-align: left;
+            color: #bbb;
+            border: 1px solid transparent;  
+         }
+
+         label:before {
+            font-family: fontawesome;
+            font-weight: normal;
+            margin-right: 10px;
+         }
+
+         label[for*='1']:before {
+            content: '\f1cb';
+         }
+
+         label[for*='2']:before {
+            content: '\f17d';
+         }
+
+         label[for*='3']:before {
+            content: '\f16b';
+         }
+
+         label[for*='4']:before {
+            content: '\f1a9';
+         }
+
+         label:hover {
+            color: #888;
+            cursor: pointer;
+         }
+
+         input:checked + label {
+            color: #555;
+            border: 1px solid #ddd;
+            border-top: 2px solid orange;
+            border-bottom: 1px solid #fff;
+         }
+
+         #tab1:checked ~ #content1,
+         #tab2:checked ~ #content2,
+         #tab3:checked ~ #content3,
+         #tab4:checked ~ #content4 {
+            display: block;
+         }
+
+         @media screen and (max-width: 650px) {
+            label {
+               font-size: 0;
+            }
+
+            label:before {
+               margin: 0;
+               font-size: 18px;
+            }
+         }
+         @media screen and (max-width: 400px) {
+            label {
+               padding: 15px;
+            }
+         }
+      </style>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+   </head>
+
+   <body>
+      <h2>Stockstrend.in - Administrator</h2>
+      <main>
+         <input id="tab1" type="radio" name="tabs" checked>
+         <label for="tab1">Weekly Calls</label>
+    
+         <input id="tab2" type="radio" name="tabs">
+         <label for="tab2">Historical Calls</label>
+    
+         <input id="tab3" type="radio" name="tabs">
+         <label for="tab3">Analysis Details</label>
+    
+         <input id="tab4" type="radio" name="tabs">
+         <label for="tab4">Training Registrations</label>
+    
+         <section id="content1">
+            <div class="container">
+               <div id="table" class="table-editable">
+                  <span class="table-add glyphicon glyphicon-plus"></span>
+                  <table class="table">
+                     <tr>
+                        <th name="id">ID</th>
+                        <th name="scripts">Script</th>
+                        <th name="buysell">Action</th>
+                        <th name="entryprice">EntryPrice</th>
+                        <th name="stoploss">Stoploss</th>
+                        <th name="targetprice">Target</th>
+                        <th name="calldate">Date</th>
+                        <th name="active">Status</th>
+                        <th name="result">Result</th>
+                        <th></th>
+                        <th></th>
+                     </tr>
+          
+                     <!-- This is our clonable table line -->
+                     <tr class="hide">
+                        <td class="intro-text-light">0</td>
+                        <td contenteditable="true" class="intro-text-light">script</td>
+                        <td class="intro-text-light"><select id="bs"><option value='B'>Buy</option><option value='S'>Sell</option></select></td>
+                        <td contenteditable="true" class="intro-text-light">0</td>
+                        <td contenteditable="true" class="intro-text-light">0</td>
+                        <td contenteditable="true" class="intro-text-light">0</td>
+                        <td contenteditable="true" class="calldate intro-text-light">
+                           <div class="date" contenteditable="false"></div>
+                           <input type="hidden" class="datepicker" />
+                        </td>
+                        <td class="intro-text-light"><select id="activeexpired"><option value='A'>Active</option><option value='E'>Expired</option></select></td>
+                        <td class="intro-text-light"><select id="result"><option value='O'>Ongoing Call</option><option value='P'>Target Hit</option><option value='L'>Stoploss Hit</option></select></td>
+                        <td><span class="table-remove glyphicon glyphicon-remove"></span></td>
+                        <td><span class="table-up glyphicon glyphicon-arrow-up"></span><span class="table-down glyphicon glyphicon-arrow-down"></span></td>
+                     </tr>
+                  </table>
+               </div>
+      
+               <button id="export-btn" class="btn btn-primary">&nbsp; Save Calls &nbsp;</button>
+               <p id="export"></p>
+            </div>
+         </section>
+    
+         <section id="content2">
+            <table id="example" class="display" cellspacing="0" width="100%">
+               <thead>
+                  <tr>
+                     <th>ID</th>
+                     <th>Script</th>
+                     <th>Action</th>
+                     <th>EntryPrice</th>
+                     <th>Stoploss</th>
+                     <th>Target</th>
+                     <th>Date</th>
+                     <th>Status</th>
+                     <th>Result</th>
+                  </tr>
+               </thead>
+               <tfoot>
+                  <tr>
+                     <th>ID</th>
+                     <th>Script</th>
+                     <th>Action</th>
+                     <th>EntryPrice</th>
+                     <th>Stoploss</th>
+                     <th>Target</th>
+                     <th>Date</th>
+                     <th>Status</th>
+                     <th>Result</th>
+                  </tr>
+               </tfoot>
+            </table>
+         </section>
+    
+         <section id="content3">
+            <form id='myForm' name="myForm" action="javascript:;" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+               <table>
+                  <tr>
+                     <td style="width:60%">
+                        <div style="float:left">
+                           <img id="preview" src="placeholder.png" height="400px" width="100%" />
+                           <input type="file" name="file" id="file" onchange="previewImage(this)" accept="image/*"/>
+                        </div>
+                     </td>
+                     <td style="width:40%;padding-top:0;vertical-align: top;">
+                        <div>
+                           <input type="hidden" name="id" id="id" value="0" />
+                           <input type="hidden" name="filename" id="filename" value="" />
+                           <label for="script" style="width:35%"> Script: </label>
+                           <span><input type="text" name="script" id="script" value=""  placeholder="Script" required /></span>
+                        </div>
+                        <div>
+                           <label for="action" style="width:35%"> Action: </label>
+                           <span><select id="action" name="action"><option value='B'>Buy</option><option value='S'>Sell</option></select></span>
+                        </div>
+                        <div>
+                           <label for="entryprice" style="width:35%"> EntryPrice: </label>
+                           <span><input type="text" name="entryprice" id="entryprice" value="" placeholder="Entry Price"/ required=""></span>
+                        </div>
+                        <div>
+                           <label for="stoploss" style="width:35%"> Stoploss: </label>
+                           <span><input type="text" name="stoploss" id="stoploss" value=""  placeholder="Stoploss" required /></span>
+                        </div>
+                        <div>
+                           <label for="target" style="width:35%"> Target: </label>
+                           <span><input type="text" name="target" id="target" value=""  placeholder="Target" required /></span>
+                        </div>
+                        <div>
+                           <label for="date" style="width:35%"> Date: </label>
+                           <span><input type="text" name="calldate" id="datepicker" value=""  placeholder=""  required/></span>
+                        </div>
+                        <div>
+                           <label for="action" style="width:35%"> Status: </label>
+                           <span><select id="status" name="status"><option value='A'>Active</option><option value='E'>Expired</option></select></span>
+                        </div>
+                        <div>
+                           <label for="comments" style="width:35%"> Commnets: </label>
+                           <span><textarea row="6" cols="20" name="comments" required></textarea></span>
+                        </div>
+                        <br>
+                        <div><span><label for="comments" style="width:35%">&nbsp;</label><input type=submit id=submitButton value='Save Analysis' class="btn btn-primary"/> &nbsp;&nbsp;<input type=reset id=resetButton value='Reset' class="btn btn-primary" onclick="javascript:clearpreview();return true" /></span></div>
+                     </td>
+                  </tr>
+               </table>
+            </form>
+            <br>
+            <hr>
+            <table id="analysislist" class="display" cellspacing="0" width="100%">
+               <thead>
+                  <tr>
+                     <th>ID</th>
+                     <th>Script</th>
+                     <th>Action</th>
+                     <th>EntryPrice</th>
+                     <th>Stoploss</th>
+                     <th>Target</th>
+                     <th>Date</th>
+                     <th>Image</th>
+                     <th>Status</th>
+                     <th>Edit</th>
+                  </tr>
+               </thead>
+               <tfoot>
+                  <tr>
+                     <th>ID</th>
+                     <th>Script</th>
+                     <th>Action</th>
+                     <th>EntryPrice</th>
+                     <th>Stoploss</th>
+                     <th>Target</th>
+                     <th>Date</th>
+                     <th>Image</th>
+                     <th>Status</th>
+                     <th>Edit</th>
+                  </tr>
+               </tfoot>
+            </table>
+         </section>
+    
+         <section id="content4">
+            <p>
+               Bacon ipsum dolor sit amet landjaeger sausage brisket, jerky drumstick fatback boudin ball tip turducken. Pork belly meatball t-bone bresaola tail filet mignon kevin turkey ribeye shank flank doner cow kielbasa shankle. Pig swine chicken hamburger, tenderloin turkey rump ball tip sirloin frankfurter meatloaf boudin brisket ham hock. Hamburger venison brisket tri-tip andouille pork belly ball tip short ribs biltong meatball chuck. Pork chop ribeye tail short ribs, beef hamburger meatball kielbasa rump corned beef porchetta landjaeger flank. Doner rump frankfurter meatball meatloaf, cow kevin pork pork loin venison fatback spare ribs salami beef ribs.
+            </p>
+            <p>
+               Jerky jowl pork chop tongue, kielbasa shank venison. Capicola shank pig ribeye leberkas filet mignon brisket beef kevin tenderloin porchetta. Capicola fatback venison shank kielbasa, drumstick ribeye landjaeger beef kevin tail meatball pastrami prosciutto pancetta. Tail kevin spare ribs ground round ham ham hock brisket shoulder. Corned beef tri-tip leberkas flank sausage ham hock filet mignon beef ribs pancetta turkey.
+            </p>
+         </section>  
+      </main>
+   </body>
+   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+   <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+   <script src='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
+   <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore.js'></script>
+   <script src='https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js'></script>
+
+   <script src="/static/adminsite/js/index_admin.js"></script>
+</html>
