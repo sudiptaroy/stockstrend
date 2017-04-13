@@ -13,6 +13,7 @@
    <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
 
    <link rel='stylesheet'  type='text/css' href='https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css'>
+   <link rel='stylesheet'  type='text/css' href='https://cdn.datatables.net/1.10.13/css/dataTables.jqueryui.min.css'>
 
    <link rel='stylesheet' href='/static/adminsite/css/style_admin.css'>
 
@@ -21,13 +22,168 @@
          display: none;
          padding: 20px 0 0;
          border-top: 1px solid #ddd;
-      }
+         }
 
 
-      #mySidebar a.active {
-    background-color: #4CAF50;
-    color: #ffffff;
- }
+         #mySidebar a.active {
+            background-color: #4CAF50;
+            color: #ffffff;
+         }
+
+         :-moz-placeholder {
+            color: blue;
+         }
+ 
+         ::-webkit-input-placeholder {
+            color: blue;
+         }
+
+         *:focus {outline: none;}
+
+         body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", sans-serif;}
+         .myForm h2, .myForm label {font-family:Georgia, Times, "Times New Roman", serif;}
+         .form_hint, .required_notification {font-size: 11px;}
+
+         .myForm ul {
+            /*width:750px;*/
+            list-style-type:none;
+            list-style-position:outside;
+            margin:0px;
+            padding:0px;
+         }
+         
+         .myForm li{
+            padding:12px; 
+            border-bottom:1px solid #eee;
+            position:relative;
+         }
+
+         .myForm li:first-child /*.myForm li:last-child*/ {
+            border-bottom:1px solid #777;
+         }
+
+         .myForm tr {
+            border-bottom:1px solid #777;
+         }
+
+         .myForm h2 {
+            margin:0;
+            display: inline;
+         }
+
+         .required_notification {
+            color:#d45252; 
+            margin:5px 0 0 0; 
+            display:inline;
+            float:right;
+         }
+
+         .myForm label {
+            width:150px;
+            margin-top: 3px;
+            display:inline-block;
+            float:left;
+            padding:3px;
+         }
+
+         .myForm input {
+            height:30px; 
+            width:220px; 
+            padding:5px 8px;
+         }
+         .myForm textarea {padding:8px; width:300px;}
+         .myForm button {margin-left:156px;}
+
+         .myForm input, .myForm textarea { 
+             border:1px solid #aaa;
+             box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
+             border-radius:2px;
+         }
+
+         .myForm input:focus, .myForm textarea:focus {
+             background: #fff; 
+             border:1px solid #555; 
+             box-shadow: 0 0 3px #aaa; 
+         }
+         /* Button Style */
+         button.submit {
+             background-color: #68b12f;
+             background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
+             background: -webkit-linear-gradient(top, #68b12f, #50911e);
+             background: -moz-linear-gradient(top, #68b12f, #50911e);
+             background: -ms-linear-gradient(top, #68b12f, #50911e);
+             background: -o-linear-gradient(top, #68b12f, #50911e);
+             background: linear-gradient(top, #68b12f, #50911e);
+             border: 1px solid #509111;
+             border-bottom: 1px solid #5b992b;
+             border-radius: 3px;
+             -webkit-border-radius: 3px;
+             -moz-border-radius: 3px;
+             -ms-border-radius: 3px;
+             -o-border-radius: 3px;
+             box-shadow: inset 0 1px 0 0 #9fd574;
+             -webkit-box-shadow: 0 1px 0 0 #9fd574 inset ;
+             -moz-box-shadow: 0 1px 0 0 #9fd574 inset;
+             -ms-box-shadow: 0 1px 0 0 #9fd574 inset;
+             -o-box-shadow: 0 1px 0 0 #9fd574 inset;
+             color: white;
+             font-weight: bold;
+             padding: 6px 20px;
+             text-align: center;
+             text-shadow: 0 -1px 0 #396715;
+         }
+         button.submit:hover {
+             opacity:.85;
+             cursor: pointer; 
+         }
+         button.submit:active {
+             border: 1px solid #20911e;
+             box-shadow: 0 0 10px 5px #356b0b inset; 
+             -webkit-box-shadow:0 0 10px 5px #356b0b inset ;
+             -moz-box-shadow: 0 0 10px 5px #356b0b inset;
+             -ms-box-shadow: 0 0 10px 5px #356b0b inset;
+             -o-box-shadow: 0 0 10px 5px #356b0b inset;
+              
+         }
+
+         .myForm input:focus, .myForm textarea:focus { /* add this to the already existing style */
+            padding-right:70px;
+         }
+
+         .myForm input, .myForm textarea { /* add this to the already existing style */
+             -moz-transition: padding .25s; 
+             -webkit-transition: padding .25s; 
+             -o-transition: padding .25s;
+             transition: padding .25s;
+         }
+
+         .myForm input, .myForm textarea {
+            padding-right:30px;
+         }
+
+         input:required, textarea:required {
+            background: #fff url(/static/adminsite/images/asterisk_red.png) no-repeat 98% center;
+         }
+
+         ::-webkit-validation-bubble-message {
+            padding: 1em;
+         }
+
+         .myForm input:focus:invalid, .myForm textarea:focus:invalid { /* when a field is considered invalid by the browser */
+            background: #fff url(/static/adminsite/images/invalid.png) no-repeat 98% center;
+            box-shadow: 0 0 5px #d45252;
+            border-color: #b03535
+         }
+
+         .myForm input:required:valid, .myForm textarea:required:valid { /* when a field is considered valid by the browser */
+            background: #fff url(/static/adminsite/images/check.png) no-repeat 98% center;
+            box-shadow: 0 0 5px #5cd053;
+            border-color: #28921f;
+         }
+
+
+
+
       </style>
    </head>
 
@@ -142,54 +298,60 @@
                   </table>
                </section>
     
-               <section id="content3">
-                  <div><strong>Analysis</strong></div><hr>
-                  <form id='myForm' name="myForm" action="javascript:;" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+               <section id="content3" style="border-top: 0px">
+                  <form id='myForm' class="myForm" name="myForm" action="javascript:;" enctype="multipart/form-data" method="post" accept-charset="utf-8">
                      <table style="min-width: 100%">
                         <tr>
-                           <td style="width:60%">
+                           <td style="width:45%">
                               <div style="float:left">
-                                 <img id="preview" src="placeholder.png" height="400px" width="100%" />
-                                 <input type="file" name="file" id="file" onchange="previewImage(this)" accept="image/*"/>
+                                 <img id="preview" src="placeholder.png" height="400px" width="400px" />
+                                 <br>
+                                 <input type="file" name="file" id="file" style="height:40px;width: 350px;margin-top: 10px;padding: 0px;" onchange="previewImage(this)" accept="image/*"/>
                               </div>
                            </td>
-                           <td style="width:40%;padding-top:0;vertical-align: top;">
-                              <div>
+                           <td style="width:55%;padding-top:0;vertical-align: top;">
+                              <ul>
+                              <li>
+                                 <h2>Technical Analysis</h2>
+                                 <span class="required_notification">* Denotes Required Field</span>
+                              </li>
+                              <li>
                                  <input type="hidden" name="id" id="id" value="0" />
                                  <input type="hidden" name="filename" id="filename" value="" />
-                                 <label for="script" style="width:35%"> Script: </label>
+                                 <label for="script" > Script: </label>
                                  <span><input type="text" name="script" id="script" value=""  placeholder="Script" required /></span>
-                              </div>
-                              <div>
-                                 <label for="action" style="width:35%"> Action: </label>
-                                 <span><select id="action" name="action"><option value='B'>Buy</option><option value='S'>Sell</option></select></span>
-                              </div>
-                              <div>
-                                 <label for="entryprice" style="width:35%"> EntryPrice: </label>
-                                 <span><input type="text" name="entryprice" id="entryprice" value="" placeholder="Entry Price"/ required=""></span>
-                              </div>
-                              <div>
-                                 <label for="stoploss" style="width:35%"> Stoploss: </label>
-                                 <span><input type="text" name="stoploss" id="stoploss" value=""  placeholder="Stoploss" required /></span>
-                              </div>
-                              <div>
-                                 <label for="target" style="width:35%"> Target: </label>
-                                 <span><input type="text" name="target" id="target" value=""  placeholder="Target" required /></span>
-                              </div>
-                              <div>
-                                 <label for="date" style="width:35%"> Date: </label>
-                                 <span><input type="text" name="calldate" id="datepicker" value=""  placeholder=""  required/></span>
-                              </div>
-                              <div>
-                                 <label for="action" style="width:35%"> Status: </label>
-                                 <span><select id="status" name="status"><option value='A'>Active</option><option value='E'>Expired</option></select></span>
-                              </div>
-                              <div>
-                                 <label for="comments" style="width:35%"> Commnets: </label>
+                              </li>
+                              <li>
+                                 <label for="action" > Action: </label>
+                                 <span><select id="action" name="action" required><option value='B'>Buy</option><option value='S'>Sell</option></select></span>
+                              </li>
+                              <li>
+                                 <label for="entryprice" > EntryPrice: </label>
+                                 <span><input type="number" step="any" name="entryprice" id="entryprice" value="" placeholder="Entry Price"/ required></span>
+                              </li>
+                              <li>
+                                 <label for="stoploss" > Stoploss: </label>
+                                 <span><input type="number" step="any" name="stoploss" id="stoploss" value=""  placeholder="Stoploss" required /></span>
+                              </li>
+                              <li>
+                                 <label for="target" > Target: </label>
+                                 <span><input type="number" step="any" name="target" id="target" value=""  placeholder="Target" required /></span>
+                              </li>
+                              <li>
+                                 <label for="date" > Date: </label>
+                                 <span><input type="date" name="calldate" id="calldate" value=""  placeholder="Date"  required/></span>
+                              </li>
+                              <li>
+                                 <label for="action" > Status: </label>
+                                 <span><select id="status" name="status" required><option value='A'>Active</option><option value='E'>Expired</option></select></span>
+                              </li>
+                              <li>
+                                 <label for="comments" > Commnets: </label>
                                  <span><textarea row="6" cols="25" name="comments" required></textarea></span>
-                              </div>
+                              </li>
                               <br>
-                              <div><span><label for="comments" style="width:35%">&nbsp;</label><input type=submit id=submitButton value='Save Analysis' class="btn btn-primary"/> &nbsp;&nbsp;<input type=reset id=resetButton value='Reset' class="btn btn-primary" onclick="javascript:clearpreview();return true" /></span></div>
+                              <li><button type="submit" class="submit" id=submitButton>Save Analysis</button><button style="margin-left:20px" class="submit" type=reset id=resetButton onclick="javascript:clearpreview();return true">Reset</button></li>
+                              </ul>
                            </td>
                         </tr>
                      </table>
@@ -278,6 +440,6 @@
    <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
    <script src='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
       <script src='https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js'></script>
-
+   <script src='https://cdn.datatables.net/1.10.13/js/dataTables.jqueryui.min.js'></script> 
 <script src="/static/adminsite/js/index_admin.js"></script>
 </html>
