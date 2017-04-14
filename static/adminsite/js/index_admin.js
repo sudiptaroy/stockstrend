@@ -1,121 +1,89 @@
-var $TABLE = $('#table');
-var $BTN = $('#export-btn');
-var $EXPORT = $('#export');
 
-var remove_selected_row=[]
-
-$('.table-add').click(function () {
-   var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
-   $TABLE.find('table').append($clone);
-});
-
-$('.table-remove').click(function () {
-   var $td = $(this).parents('tr').find('td')
-   var id = $td.eq(0).text()
-   var selected_item = {}
-   selected_item['id'] = id
-
-   if(id > 0) {
-      remove_selected_row.push(selected_item)
+var weeklycalldatatable
+function weeklycalls(){
+   if ( ! $.fn.DataTable.isDataTable( '#weeklycalltable') ) {
+      weeklycalldatatable = $('#weeklycalltable').DataTable({
+         "ajax": {
+            "dataType": 'json',
+            "contentType": "application/json",
+            "type": "get",
+            "url":"/admin/calls"
+         },
+         "columns": [
+            { "data": "eid" },
+            { "data": "script" },
+            { "data": "action","render":function(data,type,full) {if(data=='B') { return 'Buy' } else {return 'Sell'}} },
+            { "data": "entryprice" },
+            { "data": "stoploss" },
+            { "data": "target" },
+            { "data": "date" },
+            { "data": "status","render":function(data,type,full) {if(data=='A') { return 'Active' } else {return 'Expired'}}  },
+            { "data": "result","render":function(data,type,full) {if(data=='P') { return 'Target Hit' } else if(data=='L') {return 'Stoploss Hit'} else {return 'Ongoing-Call'}}  },
+            { "data": "", "render":function(data,type,full){return '<button> Edit </button>'}}
+         ]
+      })
+   } else {
+      weeklycalldatatable.ajax.reload();
    }
 
-   $(this).parents('tr').detach();
-});
-
-$('.table-up').click(function () {
-   var $row = $(this).parents('tr');
-   if ($row.index() === 1) return; // Don't go above the header
-   $row.prev().before($row.get(0));
-});
-
-$('.table-down').click(function () {
-   var $row = $(this).parents('tr');
-   $row.next().after($row.get(0));
-});
-
-// A few jQuery helpers for exporting only
-jQuery.fn.pop = [].pop;
-jQuery.fn.shift = [].shift;
-
-function weeklycalls(){
-   $TABLE.find('tr:gt(1)').remove();
-
-   $.ajax({
-      url: '/admin/calls',
-      type: 'get',
-      contentType: "application/json",
-      success: function(data){ 
-         response_data = $.parseJSON(data)
-         //alert(JSON.stringify(response_data));
-         innerHTML ="";
-         $.each(response_data, function(key,value){ //alert("loop")
-            var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
-            $td = $clone.find('td')
-            //alert($td.eq(2).find("select").eq(0).val())
-            $td.eq(0).text(value.eid)
-            $td.eq(1).text(value.script)
-            $td.eq(2).find('select').eq(0).val(value.action) //('selectedindex',1)
-            $td.eq(3).text(value.entryprice)
-            $td.eq(4).text(value.stoploss)
-            $td.eq(5).text(value.target)
-            $td.eq(6).find("[contenteditable=false]").html(value.date)
-            $td.eq(7).find('select').eq(0).val(value.status) 
-            $td.eq(8).find('select').eq(0).val(value.result) 
-            $TABLE.find('table').append($clone);
-         })
-      },
-      error:function(data){
-         alert("Error:"+data);
-      }
-   })
+   $('#weeklycalltable tbody').on( 'click', 'button', function () {
+        var data = weeklycalldatatable.row($(this).parents('tr')).data();
+        console.log(data['eid'])
+        populateweeklyCallformdata(data);
+    });
 }
 
-$BTN.click(function () {
-   var $rows = $TABLE.find('tr:not(:hidden)');
-   var headers = [];
-   var data = [];
-  
-   // Get the headers (add special header logic here)
-   $($rows.shift()).find('th:not(:empty)').each(function () {
-      headers.push($(this).text().toLowerCase());
-   });
-  
-   // Turn all existing rows into a loopable array
-   $rows.each(function () {
-      var $td = $(this).find('td');
-      var h = {};
-    
-      // Use the headers from earlier to name our hash keys
-      headers.forEach(function (header, i) { 
-         if(i==2 || i==7 || i==8) { 
-            h[header] = $td.eq(i).find('select').eq(0).val().trim();  
-         } else { 
-            h[header] = $td.eq(i).text().trim();   
-         } 
+function populateweeklyCallformdata(data){
+   $.each(data, function(key, value) {  
+      if(key=='eid') {
+         var ctrl = $('[name=id]', $("#weeklyCallForm"));  
+         ctrl.val(value);
+
+      } else if(key=='date') {
+         var ctrl = $('[name=calldate]', $("#weeklyCallForm"));  
+         ctrl.val(value);
+
+      }else {
+         var ctrl = $('[name='+key+']', $("#weeklyCallForm"));  
+         ctrl.val(value);  
+      }  
+    });
+}
+
+function clearweeklycallformhidden(){
+   var ctrl = $('[name=id]', $("#weeklyCallForm"));  
+   ctrl.val('0');
+}
+
+$(document).ready(function () {
+   $("#weeklyCallForm").submit(function (event) {
+      //disable the default form submission
+      event.preventDefault();
+      //grab all form data  
+      var formData = new FormData($("#weeklyCallForm")[0]);
+      $.ajax({
+         url: '/admin/calls',
+         type: 'post',
+         data: formData,
+         async: false,
+         cache: false,
+         contentType: false,
+         processData: false,
+         success: function(data) {
+            response_data = $.parseJSON(data)
+            //alert(JSON.stringify(response_data))
+            //alert(response_data['id'])
+            var ctrl = $('[name=id]', $("#weeklyCallForm"));  
+            ctrl.val(response_data['id']);
+            weeklycalldatatable.ajax.reload()
+            alert("Success")
+         },
+         error:function(data){
+            console.log(data)
+            alert('Error Occured')
+         }
       });
-      data.push(h);
-   });
-
-   // Output the result
-   //$EXPORT.text(JSON.stringify(data));
-   //alert(JSON.stringify(remove_selected_row))
-   var post_data = {
-      insert_item:JSON.stringify(data),
-      remove_item:JSON.stringify(remove_selected_row)
-   }
-
-   $.ajax({
-      url: '/admin/calls',
-      type: 'put',
-      data: JSON.stringify(post_data) , //JSON.stringify({ 'active': 'True', 'Credits': '100'}),
-      contentType: "application/json",
-      success: function(data){
-         weeklycalls()
-         alert('success')
-      },
-      error: function(data){
-         alert('error occured')
-      }
+      return false;
    })
 });
 
@@ -235,7 +203,14 @@ $(document).ready(function () {
          cache: false,
          contentType: false,
          processData: false,
-         success: function(response_data) {
+         success: function(data) {
+            response_data = $.parseJSON(data)
+            var ctrl = $('[name=id]', $("#myForm"));  
+            ctrl.val(response_data['id']);
+
+            var ctrl = $('[name=filename]', $("#myForm"));  
+            ctrl.val(response_data['filename']);
+
             analysislistdatatable.ajax.reload()
             alert("Success")
          },
@@ -272,6 +247,11 @@ function clearpreview() {
    d = new Date();
    imgsrc = '';
    $("#preview").attr("src", imgsrc+"?"+d.getTime());
+   var ctrl = $('[name=filename]', $("#myForm"));  
+   ctrl.val('');
+   ctrl = $('[name=id]', $("#myForm"));  
+   ctrl.val('0');
+
 }
 
 $(document).ready(function () { //alert(1)

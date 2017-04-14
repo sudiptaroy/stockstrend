@@ -83,41 +83,38 @@ class AdminWeeklyCallHandler(tornado.web.RequestHandler):
          data_obj['eid'] = item.eid
          weekly_call.append(data_obj)
       #print('AdminWeeklyCallHandlerr # Get Method # Weely Calls # ', weekly_call)
-      self.write(json.dumps(weekly_call))
+      returned_data = {}
+      returned_data['data']=weekly_call
+      self.write(json.dumps(returned_data))
    
    #Create or Update the list of all the active weekly calls
-   def put(self):
+   def post(self):
       if not self.get_secure_cookie("user"):
          self.render('static/index_login.html')
          return
 
-      json_data = json.loads(self.request.body.decode('utf-8'))
-      print('AdminWeeklyCallHandler # Post Method # JSON # ',json_data)
-
       db = TinyDB(DB_FOLDER)
-      table=db.table('weeklycalls')       
-      insert_items = json.loads(json_data['insert_item'])
+      table=db.table('weeklycalls')  
 
-      #Insert or Update weekly calls
-      for item in insert_items:
-         eid = int(item['id']);
-         if(eid>0):
-            item.pop('id',None)
-            #print('AdminWeeklyCallHandlerr # Post Method # Updating Record with ID # ' , eid)
-            table.update(item, eids=[eid])
-         elif(eid==0):
-            item.pop('id',None)
-            #print('AdminWeeklyCallHandlerr # Post Method # Inserting Record # ' , item)
-            table.insert(item)
+      eid = int(self.get_argument('id',''));
+      weeklycall = {}
+      weeklycall['script'] = self.get_argument('script','');
+      weeklycall['action'] = self.get_argument('action','');
+      weeklycall['entryprice'] = self.get_argument('entryprice','');
+      weeklycall['stoploss'] = self.get_argument('stoploss','');
+      weeklycall['target']=self.get_argument('target','');
+      weeklycall['date']=self.get_argument('calldate','');
+      weeklycall['result']=self.get_argument('result','');
+      weeklycall['status']=self.get_argument('status','');
+      
+      if eid > 0:
+         print('AdminWeeklyCallHandlerr # Post Method # Updating Weekly Call with ID :',eid)
+         callid = table.update(weeklycall, eids=[eid])  
+      else :
+         print('AdminWeeklyCallHandlerr # Post Method # Inserting Weekly Call #',weeklycall)
+         callid = table.insert(weeklycall);
 
-      #Remove weekly calls
-      remove_items = json.loads(json_data['remove_item'])
-      for item in remove_items:
-         eid = int(item['id'])
-         #print('AdminWeeklyCallHandlerr # Post Method # Removing Record with ID # ' , eid)
-         table.remove(eids=[eid])
-
-      self.write(json.dumps({'status':'success'}))
+      self.write(json.dumps({'id':callid}))
 
 class AdminHistoricalCallHandler(tornado.web.RequestHandler):
    def get(self):
@@ -180,7 +177,7 @@ class AdminAnalysisHandler(tornado.web.RequestHandler):
 
          db = TinyDB(DB_FOLDER)
          table=db.table('analysis')
-
+         analysisid = 0
          if eid > 0:
             print('AdminAnalysisHandler # Post Method # Updating Analysis with ID :',eid)
             if(original_fname==''):
@@ -190,7 +187,15 @@ class AdminAnalysisHandler(tornado.web.RequestHandler):
             print('AdminAnalysisHandler # Post Method # Inserting Analysis #',analysis)
             analysisid = table.insert(analysis);
 
-      self.write(json.dumps({'id':analysisid}))
+      filename=''
+      if(original_fname==''):
+         filename=self.get_argument('filename','')
+      else:
+         filename=original_fname
+      returned_data={}
+      returned_data['id'] = analysisid
+      returned_data['filename'] = filename
+      self.write(json.dumps(returned_data))
 
    def get(self):
       if not self.get_secure_cookie("user"):

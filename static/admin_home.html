@@ -41,10 +41,10 @@
          *:focus {outline: none;}
 
          body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", sans-serif;}
-         .myForm h2, .myForm label {font-family:Georgia, Times, "Times New Roman", serif;}
+         .myForm h2, .myForm label, .weeklyCallForm h2, .weeklyCallForm label {font-family:Georgia, Times, "Times New Roman", serif;}
          .form_hint, .required_notification {font-size: 11px;}
 
-         .myForm ul {
+         .myForm ul, .weeklyCallForm ul {
             /*width:750px;*/
             list-style-type:none;
             list-style-position:outside;
@@ -52,21 +52,21 @@
             padding:0px;
          }
          
-         .myForm li{
+         .myForm li, .weeklyCallForm li{
             padding:12px; 
             border-bottom:1px solid #eee;
             position:relative;
          }
 
-         .myForm li:first-child /*.myForm li:last-child*/ {
+         .myForm li:first-child, .weeklyCallForm li:first-child /*.myForm li:last-child*/ {
             border-bottom:1px solid #777;
          }
 
-         .myForm tr {
+         .myForm tr, .weeklyCallForm tr {
             border-bottom:1px solid #777;
          }
 
-         .myForm h2 {
+         .myForm h2, .weeklyCallForm h2 {
             margin:0;
             display: inline;
          }
@@ -78,7 +78,7 @@
             float:right;
          }
 
-         .myForm label {
+         .myForm label, .weeklyCallForm label {
             width:150px;
             margin-top: 3px;
             display:inline-block;
@@ -86,21 +86,21 @@
             padding:3px;
          }
 
-         .myForm input {
+         .myForm input, .weeklyCallForm input {
             height:30px; 
             width:220px; 
             padding:5px 8px;
          }
          .myForm textarea {padding:8px; width:300px;}
-         .myForm button {margin-left:156px;}
+         .myForm button, .weeklyCallForm button {margin-left:156px;}
 
-         .myForm input, .myForm textarea { 
+         .myForm input, .myForm textarea, .weeklyCallForm input { 
              border:1px solid #aaa;
              box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
              border-radius:2px;
          }
 
-         .myForm input:focus, .myForm textarea:focus {
+         .myForm input:focus, .myForm textarea:focus, .weeklyCallForm input:focus {
              background: #fff; 
              border:1px solid #555; 
              box-shadow: 0 0 3px #aaa; 
@@ -146,18 +146,18 @@
               
          }
 
-         .myForm input:focus, .myForm textarea:focus { /* add this to the already existing style */
+         .myForm input:focus, .myForm textarea:focus, .weeklyCallForm input:focus { /* add this to the already existing style */
             padding-right:70px;
          }
 
-         .myForm input, .myForm textarea { /* add this to the already existing style */
+         .myForm input, .myForm textarea, .weeklyCallForm input { /* add this to the already existing style */
              -moz-transition: padding .25s; 
              -webkit-transition: padding .25s; 
              -o-transition: padding .25s;
              transition: padding .25s;
          }
 
-         .myForm input, .myForm textarea {
+         .myForm input, .myForm textarea, .weeklyCallForm input {
             padding-right:30px;
          }
 
@@ -169,13 +169,13 @@
             padding: 1em;
          }
 
-         .myForm input:focus:invalid, .myForm textarea:focus:invalid { /* when a field is considered invalid by the browser */
+         .myForm input:focus:invalid, .myForm textarea:focus:invalid, .weeklyCallForm input:focus:invalid { /* when a field is considered invalid by the browser */
             background: #fff url(/static/adminsite/images/invalid.png) no-repeat 98% center;
             box-shadow: 0 0 5px #d45252;
             border-color: #b03535
          }
 
-         .myForm input:required:valid, .myForm textarea:required:valid { /* when a field is considered valid by the browser */
+         .myForm input:required:valid, .myForm textarea:required:valid, .weeklyCallForm input:required:valid { /* when a field is considered valid by the browser */
             background: #fff url(/static/adminsite/images/check.png) no-repeat 98% center;
             box-shadow: 0 0 5px #5cd053;
             border-color: #28921f;
@@ -219,46 +219,88 @@
             <div id="mainLeaderboard" class="w3-twothird w3-container" style="width: 90%">
                <section id="content1">
                   <div class="container">
-                     <div><strong>List of Weekly Calls</strong></div><br>
-                     <div id="table" class="table-editable">
-                        <span class="table-add glyphicon glyphicon-plus"></span>
-                        <table class="table">
+                     <form id='weeklyCallForm' class="weeklyCallForm" name="weeklyCallForm" action="javascript:;" method="post" accept-charset="utf-8">
+                        <table style="min-width: 100%">
                            <tr>
-                              <th name="id">ID</th>
-                              <th name="scripts">Script</th>
-                              <th name="buysell">Action</th>
-                              <th name="entryprice">EntryPrice</th>
-                              <th name="stoploss">Stoploss</th>
-                              <th name="targetprice">Target</th>
-                              <th name="calldate">Date</th>
-                              <th name="active">Status</th>
-                              <th name="result">Result</th>
-                              <th></th>
-                              <th></th>
-                           </tr>
-                
-                           <!-- This is our clonable table line -->
-                           <tr class="hide">
-                              <td class="intro-text-light">0</td>
-                              <td contenteditable="true" class="intro-text-light">script</td>
-                              <td class="intro-text-light"><select id="bs"><option value='B'>Buy</option><option value='S'>Sell</option></select></td>
-                              <td contenteditable="true" class="intro-text-light">0</td>
-                              <td contenteditable="true" class="intro-text-light">0</td>
-                              <td contenteditable="true" class="intro-text-light">0</td>
-                              <td contenteditable="true" class="calldate intro-text-light">
-                                 <div class="date" contenteditable="false"></div>
-                                 <input type="hidden" class="datepicker" />
+                              <td style="width:100%;padding-top:0;vertical-align: top;">
+                                 <ul>
+                                 <li>
+                                    <h2>Weekly Calls</h2>
+                                    <span class="required_notification">* Denotes Required Field</span>
+                                 </li>
+                                 <li>
+                                    <input type="hidden" name="id" id="id" value="0" />
+                                    <label for="script" > Script: </label>
+                                    <span><input type="text" name="script" id="script" value=""  placeholder="Script" required /></span>
+                                 </li>
+                                 <li>
+                                    <label for="action" > Action: </label>
+                                    <span><select id="action" name="action" required><option value='B'>Buy</option><option value='S'>Sell</option></select></span>
+                                 </li>
+                                 <li>
+                                    <label for="entryprice" > EntryPrice: </label>
+                                    <span><input type="number" step="any" name="entryprice" id="entryprice" value="" placeholder="Entry Price"/ required></span>
+                                 </li>
+                                 <li>
+                                    <label for="stoploss" > Stoploss: </label>
+                                    <span><input type="number" step="any" name="stoploss" id="stoploss" value=""  placeholder="Stoploss" required /></span>
+                                 </li>
+                                 <li>
+                                    <label for="target" > Target: </label>
+                                    <span><input type="number" step="any" name="target" id="target" value=""  placeholder="Target" required /></span>
+                                 </li>
+                                 <li>
+                                    <label for="date" > Date: </label>
+                                    <span><input type="date" name="calldate" id="calldate" value=""  placeholder="Date"  required/></span>
+                                 </li>
+                                 <li>
+                                 <label for="action" > Status: </label>
+                                    <span><select id="status" name="status" required><option value='A'>Active</option><option value='E'>Expired</option></select></span>
+                                 </li>
+                                 <li>
+                                    <label for="action" > Result: </label>
+                                    <span><select id="result"><option value='O'>Ongoing-Call</option><option value='P'>Target Hit</option><option value='L'>Stoploss Hit</option></select></span>
+                                 </li>
+                                 <br>
+                                 <li><button type="submit" class="submit" id=submitButton>Save</button><button style="margin-left:20px" class="submit" type=reset id="resetButton" onclick="javascript:clearweeklycallformhidden(); return true;">Reset</button></li>
+                                 </ul>
                               </td>
-                              <td class="intro-text-light"><select id="activeexpired"><option value='A'>Active</option><option value='E'>Expired</option></select></td>
-                              <td class="intro-text-light"><select id="result"><option value='O'>Ongoing Call</option><option value='P'>Target Hit</option><option value='L'>Stoploss Hit</option></select></td>
-                              <td><span class="table-remove glyphicon glyphicon-remove"></span></td>
-                              <td><span class="table-up glyphicon glyphicon-arrow-up"></span><span class="table-down glyphicon glyphicon-arrow-down"></span></td>
                            </tr>
                         </table>
-                     </div>
-      
-                     <button id="export-btn" class="btn btn-primary">&nbsp; Save Calls &nbsp;</button>
-                     <p id="export"></p>
+                     </form>
+                     <br>
+                     <div><strong>List of Active Weekly Calls </strong></div>
+                     <hr>
+                     <table id="weeklycalltable" class="display" cellspacing="0" width="100%">
+                        <thead>
+                           <tr>
+                              <th>ID</th>
+                              <th>Script</th>
+                              <th>Action</th>
+                              <th>EntryPrice</th>
+                              <th>Stoploss</th>
+                              <th>Target</th>
+                              <th>Date</th>
+                              <th>Status</th>
+                              <th>Result</th>
+                              <th>Edit</th>
+                           </tr>
+                        </thead>
+                        <tfoot>
+                           <tr>
+                              <th>ID</th>
+                              <th>Script</th>
+                              <th>Action</th>
+                              <th>EntryPrice</th>
+                              <th>Stoploss</th>
+                              <th>Target</th>
+                              <th>Date</th>
+                              <th>Status</th>
+                              <th>Result</th>
+                              <th>Edit</th>
+                           </tr>
+                        </tfoot>
+                     </table>
                   </div>
                </section>
     
