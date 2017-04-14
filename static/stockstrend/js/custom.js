@@ -21,7 +21,7 @@ function weeklycalls(){
          //alert(JSON.stringify(response_data));
          innerHTML ="";
          liHTML="</br></br></br></br>"
-         $.each(response_data, function(key,value){ //alert("loop")
+         $.each(response_data['data'], function(key,value){ //alert("loop")
             innerHTML = '<li style="text-align:left;"><button class="';
             if(value.action=='B') {
                innerHTML=innerHTML+'btn-success" style="width:50px;margin-right:10px">BUY</button>'
@@ -36,7 +36,7 @@ function weeklycalls(){
 
             liHTML=liHTML+innerHTML
          })
-         
+         console.log(liHTML)
          $('.scrolling-div-content').append(liHTML)
         
          //Scrolling related javascript
