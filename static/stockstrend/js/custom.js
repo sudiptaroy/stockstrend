@@ -26,7 +26,7 @@ function weeklycalls(){
             if(value.action=='B') {
                innerHTML=innerHTML+'btn-success" style="width:50px;margin-right:10px">BUY</button>'
             } else {
-               innerHTML=innerHTML+'btn-danger" style="width:50px;margin-right:10px">BUY</button>'
+               innerHTML=innerHTML+'btn-danger" style="width:50px;margin-right:10px">SELL</button>'
             }
 
             innerHTML=innerHTML+value.script+'<br> Entry Price - '+value.entryprice
@@ -231,10 +231,27 @@ function analysiscall() {
    })
 }
 
+function getcurrentweek() {
+  var curr = new Date; // get current date
+  var first = curr.getDate() - (curr.getDay()-1); // First day is the day of the month - the day of the week
+  var last = first + 6; // last day is the first day + 6
+
+  var firstday = new Date(curr.setDate(first));
+  var lastday = new Date(curr.setDate(last));
+
+  firstdayStr = firstday.getUTCDate()+'/'+(firstday.getUTCMonth()+1)+'/'+firstday.getUTCFullYear()
+  lastdayStr = lastday.getUTCDate()+'/'+(lastday.getUTCMonth()+1)+'/'+lastday.getUTCFullYear()
+
+  weekdates='Weekly Calls('+firstdayStr+' - '+lastdayStr+')'
+  $('#weeklycalldate').text(weekdates)
+
+} 
+
 $(document).ready(function () {
    weeklycalls();
    lastweekperformance();
    analysiscall();
+   getcurrentweek();
 })
 
   //Fancy box setup for Contact US
