@@ -279,8 +279,20 @@ class StockstrendCallPerformanceHandler(tornado.web.RequestHandler):
       table=db.table('weeklycalls')
       Calls = Query()
       expired_call=table.search(Calls.status=='E')
-      
-      sorted_calls = sorted(expired_call, key=lambda x: datetime.strptime(x['date'], '%d/%m/%Y'))
+
+      formatted_call=list()
+      for call in expired_call:
+         try:
+            call_date= datetime.strptime(call['date'], '%d/%m/%Y')
+         except:
+            call_date= datetime.strptime(call['date'], '%Y-%m-%d')
+         call['date']=call_date
+         formatted_call.append(call)
+         
+      #try:
+      sorted_calls = sorted(formatted_call, key=lambda x: x['date'])
+      #except:
+      #   sorted_calls = sorted(expired_call, key=lambda x: datetime.strptime(x['date'], '%Y-%m/%Y'))
       
       #Get todays date
       today = dt.date.today()
@@ -292,8 +304,10 @@ class StockstrendCallPerformanceHandler(tornado.web.RequestHandler):
 
       filtered_calls = list()
       for call in sorted_calls:
-         calldate = datetime.strptime(call['date'], '%d/%m/%Y').date()
+         calldate = call['date'].date()
+         #print(calldate)
          if previousSunday <= calldate <= lastSunday:
+            call['date'] = str(calldate)
             filtered_calls.append(call)
          
       print('StockstrendCallPerformanceHandler # Get Method # Performance Calls # ', filtered_calls)
