@@ -112,13 +112,78 @@ function loadhistoricalcalls(){
         		{ "data": "target" },
         		{ "data": "date" },
         		{ "data": "status","render":function(data,type,full) {if(data=='A') { return 'Active' } else {return 'Expired'}}  },
-        		{ "data": "result","render":function(data,type,full) {if(data=='P') { return 'Target Hit' } else {return 'Stoploss Hit'}}  }
+        		{ "data": "result","render":function(data,type,full) {if(data=='P') { return 'Target Hit' } else {return 'Stoploss Hit'}}  },
+            { "data": "", "render":function(data,type,full){return '<button> Edit </button>'}}
         	]
   		})
 	} else {
 		historicalcalldatatable.ajax.reload();
 	}
+
+  $('#example tbody').on( 'click', 'button', function () {
+        var data = historicalcalldatatable.row($(this).parents('tr')).data();
+        console.log(data['eid'])
+        populatehistoricalCallformdata(data);
+    });
 }
+
+function populatehistoricalCallformdata(data){
+   $.each(data, function(key, value) {  console.log(key+':'+value)
+      if(key=='eid') {
+         var ctrl = $('[name=id]', $("#historicalCallForm"));  
+         ctrl.val(value);
+
+      } else if(key=='date') {
+         var ctrl = $('[name=calldate]', $("#historicalCallForm"));  
+         ctrl.val(value);
+
+      }else {
+         var ctrl = $('[name='+key+']', $("#historicalCallForm"));  
+         ctrl.val(value);  
+      }  
+    });
+}
+
+$(document).ready(function () {
+   $("#historicalCallForm").submit(function (event) {
+      //disable the default form submission
+      event.preventDefault();
+
+      var ctrl = $('[name=id]', $("#historicalCallForm"));  
+      //alert(ctrl.val())
+      if (ctrl.val().trim()=='0') {
+        alert('Historical Calls can only be modified.')
+        return false;
+      }
+      
+      
+      //grab all form data  
+      var formData = new FormData($("#historicalCallForm")[0]);
+      $.ajax({
+         url: '/admin/calls',
+         type: 'post',
+         data: formData,
+         async: false,
+         cache: false,
+         contentType: false,
+         processData: false,
+         success: function(data) {
+            response_data = $.parseJSON(data)
+            //alert(JSON.stringify(response_data))
+            //alert(response_data['id'])
+            var ctrl = $('[name=id]', $("#historicalCallForm"));  
+            ctrl.val(response_data['id']);
+            historicalcalldatatable.ajax.reload()
+            alert("Success")
+         },
+         error:function(data){
+            console.log(data)
+            alert('Error Occured')
+         }
+      });
+      return false;
+   })
+});
 
 function previewImage(input) {
    var preview = document.getElementById('preview');

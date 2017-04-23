@@ -27,9 +27,31 @@
       <!-- Custom Fonts from Google -->
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-      <link rel="stylesheet" type="text/css" media="all" href="static/stockstrend/fancybox/jquery.fancybox.css">    
+      <link rel="stylesheet" type="text/css" media="all" href="static/stockstrend/fancybox/jquery.fancybox.css">  
+      <style>
+         input:required, textarea:required {
+            background: #fff url(/static/adminsite/images/asterisk_red.png) no-repeat 98% center;
+         }
+
+         ::-webkit-validation-bubble-message {
+            padding: 1em;
+         }
+
+         .registration-form input:focus:invalid, .indicator-form input:focus:invalid { /* when a field is considered invalid by the browser */
+            background: #fff url(/static/adminsite/images/invalid.png) no-repeat 98% center;
+            box-shadow: 0 0 5px #d45252;
+            border-color: #b03535;
+         }
+
+         .registration-form input:required:valid, .indicator-form input:required:valid { /* when a field is considered valid by the browser */
+            background: #fff url(/static/adminsite/images/valid.png) no-repeat 98% center;
+            box-shadow: 0 0 5px #5cd053;
+            border-color: #28921f;
+            vertical-align: middle;
+         }  
+      </style>
    </head>
-      
+   
    <body>
       
       <!-- Navigation -->
@@ -252,15 +274,15 @@
                            <form role="form" action="" method="post" id="registration-form" class="registration-form">
                               <div class="form-group">
                                  <label class="sr-only" for="form-name">Name</label>
-                                 <input name="form-name" placeholder="Name..." class="form-name form-control" id="form-name" type="text">
+                                 <input name="form-name" placeholder="Name..." class="form-name form-control" id="form-name" type="text" required>
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-email">Email</label>
-                                 <input name="form-email" placeholder="Email..." class="form-email form-control" id="form-email" type="text">
+                                 <input name="form-email" placeholder="Email..." class="form-email form-control" id="form-email" type="email" required>
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-contact">Contact</label>
-                                 <input name="form-contact" placeholder="Contact..." class="form-contact form-control" id="form-contact" type="text">
+                                 <input name="form-contact" placeholder="Contact No (10 Digits)" class="form-contact form-control" id="form-contact" type="text" pattern="^[789]\d{9}$" required>
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-bank">Bank</label>
@@ -268,11 +290,11 @@
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-trasaction-no">Transaction No</label>
-                                 <input name="form-transaction-no" placeholder="Transaction no..." class="form-transaction-no form-control" id="form-transaction-no" type="text">
+                                 <input name="form-transaction-no" placeholder="Transaction No (12 Digits)" class="form-transaction-no form-control" id="form-transaction-no" type="text" pattern="\d{12}" required>
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-transaction-date">Transaction Date</label>
-                                 <input name="form-transaction-date" placeholder="Transaction Date..." class="form-transaction-date form-control" id="form-transaction-date" type="text"></input>
+                                 <input name="form-transaction-date" placeholder="Transaction Date (DD/MM/YYYY)" class="form-transaction-date form-control" id="form-transaction-date" type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" required></input>
                               </div>
                               <div>
                                 <input type="submit" class="btn btn-primary btn-sm register" id="register" value="Register"/>
@@ -338,21 +360,22 @@
                            <button type="button" class="close" data-dismiss="modal"></button>
                            <h3 class="modal-title" id="modal-register-label"><strong>Buy Indicator</strong></h3>
                            <p class="text-muted">Please fill in the form below to buy the indicators.</p>
+                           <p id='msgindicator'></p>
                         </div>
                     
                         <div class="modal-body">
                            <form action="" method="post" class="indicator-form" id="indicator-form" accept-charset="utf-8">
                               <div class="form-group">
                                  <label class="sr-only" for="form-name">Name</label>
-                                 <input name="form-name" placeholder="Name..." class="form-name form-control" id="form-name" type="text">
+                                 <input name="form-name" placeholder="Name..." class="form-name form-control" id="form-name" type="text" required>
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-email">Email</label>
-                                 <input name="form-email" placeholder="Email..." class="form-email form-control" id="form-email" type="text">
+                                 <input name="form-email" placeholder="Email..." class="form-email form-control" id="form-email" type="email" required>
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-contact">Contact</label>
-                                 <input name="form-contact" placeholder="Contact..." class="form-contact form-control" id="form-contact" type="text">
+                                 <input name="form-contact" placeholder="Contact No (10 Digits)" class="form-contact form-control" id="form-contact" type="text" pattern="^[789]\d{9}$" required>
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-bank">Bank</label>
@@ -360,11 +383,11 @@
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-trasaction-no">Transaction No</label>
-                                 <input name="form-transaction-no" placeholder="Transaction no..." class="form-transaction-no form-control" id="form-transaction-no" type="text">
+                                 <input name="form-transaction-no" placeholder="Transaction No (12 Digits)" class="form-transaction-no form-control" id="form-transaction-no" type="text" pattern="\d{12}" required>
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="form-transaction-date">Transaction Date</label>
-                                 <input name="form-transaction-date" placeholder="Transaction Date..." class="form-transaction-date form-control" id="form-transaction-date" type="text"></input>
+                                 <input name="form-transaction-date" placeholder="Transaction Date (DD/MM/YYYY)" class="form-transaction-date form-control" id="form-transaction-date" type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" required></input>
                               </div>
                               <div>
                                 <input type="submit" class="btn btn-primary btn-sm buyindicator" id="buyindicator" value="Buy Indicator"/>

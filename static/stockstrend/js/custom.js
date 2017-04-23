@@ -346,39 +346,11 @@ function toggleindicator(element) {
    $('#'+element).show();
 }
 
-
-$(document).ready(function () {
-   $("#indicator-form").submit(function (event) {
-      //disable the default form submission
-      event.preventDefault();
-      //grab all form data  
-      var formData = new FormData($("#myForm")[0]);
-      /*$.ajax({
-         url: '/admin/analysis',
-         type: 'post',
-         data: formData,
-         async: false,
-         cache: false,
-         contentType: false,
-         processData: false,
-         success: function(response_data) {
-            analysislistdatatable.ajax.reload()
-            alert("Success")
-         },
-         error:function(data){
-            console.log(data)
-            alert('Error Occured')
-         }
-
-      });*/
-      alert("Submit")
-      return false;
-   })
-});
-
 $(function() {
-   $('.buyindicator').on('click', function(e) {
-      e.preventDefault();
+   $('#indicator-form').on('submit', function(ev){
+      ev.preventDefault();
+   //$('.buyindicator').on('click', function(e) {
+    //  e.preventDefault();
       var formData = new FormData($("#indicator-form")[0]);
       $.ajax({
          url: '/buyindicator',
@@ -388,11 +360,16 @@ $(function() {
          cache: false,
          contentType: false,
          processData: false,
-         success: function(response_data) {
-            $('#msgregsiter').text("Success")
-            alert("Success")
+         success: function(data) {
+            response_data = $.parseJSON(data)
+            $('#msgindicator').text("Success")
+            $('#msgindicator').css("color","#23c619")
+            //alert("Success1")
          },
          error:function(data){
+            response_data = $.parseJSON(data)
+            $('#msgindicator').text("Error")
+            $('#msgindicator').css("color","Red")
             console.log(data)
             alert('Error Occured')
          }
@@ -402,8 +379,11 @@ $(function() {
 });
 
 $(function() {
-   $('.register').on('click', function(e) {
-      e.preventDefault();
+    $('#registration-form').on('submit', function(ev){
+      ev.preventDefault();
+
+   //$('.register').on('click', function(e) {
+      //e.preventDefault();
       var formData = new FormData($("#registration-form")[0]);
       $.ajax({
          url: '/register',
@@ -413,13 +393,18 @@ $(function() {
          cache: false,
          contentType: false,
          processData: false,
-         success: function(response_data) {
+         success: function(data) {
+            response_data = $.parseJSON(data)
             $('#msgregsiter').text("Success")
-            alert("Success")
+            $('#msgregsiter').css("color","#23c619")
+            //alert(response_data.status)
          },
          error:function(data){
+            response_data = $.parseJSON(data)
+            $('#msgregsiter').text("Error")
+            $('#msgregsiter').css("color","Red")
             console.log(data)
-            alert('Error Occured')
+            //alert('Error Occured')
          }
       });
     return false;
