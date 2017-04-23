@@ -330,6 +330,7 @@ function toggle(id) { //alert(id)
    $('#mainLeaderboard').find('#content2').hide()
    $('#mainLeaderboard').find('#content3').hide()
    $('#mainLeaderboard').find('#content4').hide()
+   $('#mainLeaderboard').find('#content5').hide()
 
    if(id=='#content1')
       weeklycalls()
@@ -337,8 +338,12 @@ function toggle(id) { //alert(id)
       loadhistoricalcalls()
    else if(id=='#content3')
       loadanalysis()
+    else if(id=='#content4')
+      loadregisteredusers()
+    else if(id=="#content5")
+      loadindicatorcustomer()
    else {
-      e.preventDefault()
+      //e.preventDefault()
       alert("Work in Progress")
       return false
    }
@@ -363,6 +368,58 @@ function logout() {
    })
 }
 
+var registereduserdatatable
+//$(document).ready(function () {
+function loadregisteredusers(){
+  if ( ! $.fn.DataTable.isDataTable( '#registeredusertable') ) { 
+      registereduserdatatable = $('#registeredusertable').DataTable({
+        "ajax": {
+            "dataType": 'json',
+            "contentType": "application/json",
+            "type": "get",
+            "url":"/admin/registration"
+        },
+        "columns": [
+            { "data": "eid"},
+            { "data": "form-name" },
+            { "data": "form-email" },
+            { "data": "form-contact" },
+            { "data": "form-bank" },
+            { "data": "form-transaction-no" },
+            { "data": "form-transaction-date" }
+        ]
+      });
+    } else { 
+      registereduserdatatable.ajax.reload()
+    }
+}
+
+
+var indicatorcustomerdatatable
+//$(document).ready(function () {
+function loadindicatorcustomer(){
+  if ( ! $.fn.DataTable.isDataTable( '#indicatorcustomertable') ) { 
+      indicatorcustomerdatatable = $('#indicatorcustomertable').DataTable({
+        "ajax": {
+            "dataType": 'json',
+            "contentType": "application/json",
+            "type": "get",
+            "url":"/admin/indicator"
+        },
+        "columns": [
+            { "data": "eid"},
+            { "data": "form-name" },
+            { "data": "form-email" },
+            { "data": "form-contact" },
+            { "data": "form-bank" },
+            { "data": "form-transaction-no" },
+            { "data": "form-transaction-date" }
+        ]
+      });
+    } else { 
+      indicatorcustomerdatatable.ajax.reload()
+    }
+}
 
 
 

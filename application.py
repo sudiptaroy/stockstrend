@@ -25,6 +25,8 @@ class Application(tornado.web.Application):
       handlers = [
          (r"/admin/calls", AdminWeeklyCallHandler),
          (r"/admin/historicalcalls", AdminHistoricalCallHandler),
+         (r"/admin/registration", AdminRegistrationHandler),
+         (r"/admin/indicator", AdminIndicatorHandler),
          (r"/admin/analysis", AdminAnalysisHandler),
          (r"/", IndexHandler),
          (r"/admin", AdminIndexHandler),
@@ -136,6 +138,52 @@ class AdminHistoricalCallHandler(tornado.web.RequestHandler):
 
       returned_data = {}
       returned_data['data']=historical_calls
+      #print('AdminHistoricalCallHandler # Get Method # Historical Calls # ', returned_data)
+      self.write(json.dumps(returned_data))
+
+class AdminRegistrationHandler(tornado.web.RequestHandler):
+   def get(self):
+      if not self.get_secure_cookie("user"):
+         self.render('static/index_login.html')
+         return
+
+      db = TinyDB(DB_FOLDER)
+      table=db.table('registration')
+      Calls = Query()
+      registered_user=table.all()
+      
+      registered_user_list = list()
+      for item in registered_user:
+         data = json.dumps(item)
+         data_obj = json.loads(data)
+         data_obj['eid'] = item.eid
+         registered_user_list.append(data_obj)
+
+      returned_data = {}
+      returned_data['data']=registered_user_list
+      #print('AdminHistoricalCallHandler # Get Method # Historical Calls # ', returned_data)
+      self.write(json.dumps(returned_data))
+
+class AdminIndicatorHandler(tornado.web.RequestHandler):
+   def get(self):
+      if not self.get_secure_cookie("user"):
+         self.render('static/index_login.html')
+         return
+
+      db = TinyDB(DB_FOLDER)
+      table=db.table('indicator')
+      Calls = Query()
+      registered_user=table.all()
+      
+      registered_user_list = list()
+      for item in registered_user:
+         data = json.dumps(item)
+         data_obj = json.loads(data)
+         data_obj['eid'] = item.eid
+         registered_user_list.append(data_obj)
+
+      returned_data = {}
+      returned_data['data']=registered_user_list
       #print('AdminHistoricalCallHandler # Get Method # Historical Calls # ', returned_data)
       self.write(json.dumps(returned_data))
 
