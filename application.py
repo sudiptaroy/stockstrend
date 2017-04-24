@@ -15,8 +15,8 @@ import datetime as dt
 define("port", default=8888, help="run on the given port", type=int)
 public_root = os.path.join(os.path.dirname(__file__), '')
 
-UPLOAD_FOLDER = 'C:/Users/Raj/Desktop/StocksTrend.in/static/adminsite/uploadedimages/'
-DB_FOLDER = 'C:/Users/Raj/Desktop/StocksTrend.in/DB/db.json'
+UPLOAD_FOLDER = '/home/ubuntu/StocksTrend.in/static/adminsite/uploadedimages/'
+DB_FOLDER = '/home/ubuntu/StocksTrend.in/DB/db.json'
 
 class Application(tornado.web.Application):
    def __init__(self):
@@ -27,6 +27,7 @@ class Application(tornado.web.Application):
          (r"/admin/historicalcalls", AdminHistoricalCallHandler),
          (r"/admin/registration", AdminRegistrationHandler),
          (r"/admin/indicator", AdminIndicatorHandler),
+         (r"/admin/msg", AdminMessageHandler),
          (r"/admin/analysis", AdminAnalysisHandler),
          (r"/", IndexHandler),
          (r"/admin", AdminIndexHandler),
@@ -138,6 +139,29 @@ class AdminHistoricalCallHandler(tornado.web.RequestHandler):
 
       returned_data = {}
       returned_data['data']=historical_calls
+      #print('AdminHistoricalCallHandler # Get Method # Historical Calls # ', returned_data)
+      self.write(json.dumps(returned_data))
+
+class AdminMessageHandler(tornado.web.RequestHandler):
+   def get(self):
+      if not self.get_secure_cookie("user"):
+         self.render('static/index_login.html')
+         return
+
+      db = TinyDB(DB_FOLDER)
+      table=db.table('message')
+      Calls = Query()
+      msg=table.all()
+      
+      msg_list = list()
+      for item in msg:
+         data = json.dumps(item)
+         data_obj = json.loads(data)
+         data_obj['eid'] = item.eid
+         msg_list.append(data_obj)
+
+      returned_data = {}
+      returned_data['data']=msg_list
       #print('AdminHistoricalCallHandler # Get Method # Historical Calls # ', returned_data)
       self.write(json.dumps(returned_data))
 
@@ -275,6 +299,9 @@ class StockstrendBuyIndiacator(tornado.web.RequestHandler):
       indicator['form-bank'] = self.get_argument('form-bank','');
       indicator['form-transaction-no']=self.get_argument('form-transaction-no','');
       indicator['form-transaction-date']=self.get_argument('form-transaction-date','');
+      today = dt.date.today()
+      indicator['buy_date'] = str(today)
+      
       
       db = TinyDB(DB_FOLDER)
       table=db.table('indicator')
@@ -290,6 +317,8 @@ class StockstrendRegistration(tornado.web.RequestHandler):
       registration['form-bank'] = self.get_argument('form-bank','');
       registration['form-transaction-no']=self.get_argument('form-transaction-no','');
       registration['form-transaction-date']=self.get_argument('form-transaction-date','');
+      today = dt.date.today()
+      registration['registration_date'] = str(today)
       
       db = TinyDB(DB_FOLDER)
       table=db.table('registration')
@@ -302,6 +331,8 @@ class StockstrendSendMessage(tornado.web.RequestHandler):
       message['name'] = self.get_argument('name','');
       message['email'] = self.get_argument('email','');
       message['message'] = self.get_argument('message','');
+      today = dt.date.today()
+      message['msgdate'] = str(today)
       
       db = TinyDB(DB_FOLDER)
       table=db.table('message')

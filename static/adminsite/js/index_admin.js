@@ -331,6 +331,7 @@ function toggle(id) { //alert(id)
    $('#mainLeaderboard').find('#content3').hide()
    $('#mainLeaderboard').find('#content4').hide()
    $('#mainLeaderboard').find('#content5').hide()
+   $('#mainLeaderboard').find('#content6').hide()
 
    if(id=='#content1')
       weeklycalls()
@@ -342,6 +343,8 @@ function toggle(id) { //alert(id)
       loadregisteredusers()
     else if(id=="#content5")
       loadindicatorcustomer()
+    else if(id=="#content6")
+      loadmessages()
    else {
       //e.preventDefault()
       alert("Work in Progress")
@@ -386,7 +389,8 @@ function loadregisteredusers(){
             { "data": "form-contact" },
             { "data": "form-bank" },
             { "data": "form-transaction-no" },
-            { "data": "form-transaction-date" }
+            { "data": "form-transaction-date" },
+            {"data": "registration_date"}
         ]
       });
     } else { 
@@ -413,7 +417,8 @@ function loadindicatorcustomer(){
             { "data": "form-contact" },
             { "data": "form-bank" },
             { "data": "form-transaction-no" },
-            { "data": "form-transaction-date" }
+            { "data": "form-transaction-date" },
+            {"data": "buy_date"}
         ]
       });
     } else { 
@@ -421,6 +426,28 @@ function loadindicatorcustomer(){
     }
 }
 
-
+var messagedatatable
+//$(document).ready(function () {
+function loadmessages(){
+  if ( ! $.fn.DataTable.isDataTable( '#msgtable') ) { 
+      messagedatatable = $('#msgtable').DataTable({
+        "ajax": {
+            "dataType": 'json',
+            "contentType": "application/json",
+            "type": "get",
+            "url":"/admin/msg"
+        },
+        "columns": [
+            { "data": "eid"},
+            { "data": "name" },
+            { "data": "email" },
+            { "data": "message" },
+            {"data" : "msgdate"}
+        ]
+      });
+    } else { 
+      messagedatatable.ajax.reload()
+    }
+}
 
 
