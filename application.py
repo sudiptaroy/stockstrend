@@ -15,8 +15,9 @@ import datetime as dt
 define("port", default=8888, help="run on the given port", type=int)
 public_root = os.path.join(os.path.dirname(__file__), '')
 
-UPLOAD_FOLDER = '/home/ubuntu/StocksTrend.in/static/adminsite/uploadedimages/'
-DB_FOLDER = '/home/ubuntu/StocksTrend.in/DB/db.json'
+UPLOAD_FOLDER = 'C:/Users/Raj/Desktop/StocksTrend.in/static/adminsite/uploadedimages/'
+INDICATOR_FILE_FOLDER = 'C:/Users/Raj/Desktop/StocksTrend.in/static/indicatorfiles/'
+DB_FOLDER = 'C:/Users/Raj/Desktop/StocksTrend.in/DB/db.json'
 
 class Application(tornado.web.Application):
    def __init__(self):
@@ -28,6 +29,7 @@ class Application(tornado.web.Application):
          (r"/admin/registration", AdminRegistrationHandler),
          (r"/admin/indicator", AdminIndicatorHandler),
          (r"/admin/msg", AdminMessageHandler),
+         (r"/admin/indicatorfiles", AdminIndicatorFilesHandler),
          (r"/admin/analysis", AdminAnalysisHandler),
          (r"/", IndexHandler),
          (r"/admin", AdminIndexHandler),
@@ -391,6 +393,89 @@ class StockstrendCallPerformanceHandler(tornado.web.RequestHandler):
          
       print('StockstrendCallPerformanceHandler # Get Method # Performance Calls # ', filtered_calls)
       self.write(json.dumps(filtered_calls))
+
+class AdminIndicatorFilesHandler(tornado.web.RequestHandler):
+   def put(self):
+      id = int(self.get_argument('id',''));
+      filename=self.get_argument('filename','');
+      #print("@@@@@@@@@@@@@@@@@@@ID:",id)
+      db = TinyDB(DB_FOLDER)
+      table=db.table('indicator_files')
+
+      try:
+         path = INDICATOR_FILE_FOLDER+filename
+         if(filename!=''):
+            os.remove(path)
+      except:
+         pass
+      table.remove(eids=[id])
+      self.write(json.dumps({'status':'success'}))   
+
+   def post(self):
+      if not self.get_secure_cookie("user"):
+         self.render('static/index_login.html')
+         return
+      print("1")
+      original_fname=''
+      if 'file' in self.request.files:
+         print("2")
+         file = self.request.files['file'][0]
+         original_fname = file['filename']
+         print("3")
+      
+      print('AdminIndicatorFilesHandler # Post Method # Upload File Name # '+str(original_fname))
+
+      #If eid is 0, then new analysis record to be created and new file will be saved
+      if original_fname=='':
+         print('AdminIndicatorFilesHandler # Post Method # Upload File Name # No Selected File')
+         self.write(json.dumps({'id':'0'}))
+      else:
+         if original_fname!='':
+            print('AdminIndicatorFilesHandler # Post Method # Uploading # '+str(original_fname))
+            path = INDICATOR_FILE_FOLDER+original_fname
+            file = self.request.files['file'][0]
+            fh = open(path, 'wb')
+            fh.write(file['body'])  
+            fh.close()
+            print('AdminIndicatorFilesHandler # Post Method # Uploaded # '+str(original_fname))
+                        
+         indicator_files = {}
+         today = dt.date.today()
+         indicator_files['filename'] = original_fname
+         indicator_files['url'] = "http://stockstrend.in/static/indicatorfiles/"+original_fname
+         indicator_files['date'] = str(today)
+         
+         db = TinyDB(DB_FOLDER)
+         table=db.table('indicator_files')
+         
+         print('AdminIndicatorFilesHandler # Post Method # Inserting indicator files #',indicator_files)
+         indicator_files_id = table.insert(indicator_files);
+
+      returned_data={}
+      returned_data['id'] = indicator_files_id
+      returned_data['filename'] = original_fname
+      self.write(json.dumps(returned_data))
+
+   def get(self):
+      if not self.get_secure_cookie("user"):
+         self.render('static/index_login.html')
+         return
+
+      db = TinyDB(DB_FOLDER)
+      table=db.table('indicator_files')
+      files =table.all()
+
+      file_list = list()
+      for item in files:
+         data = json.dumps(item)
+         data_obj = json.loads(data)
+         data_obj['eid'] = item.eid
+         file_list.append(data_obj)
+
+      returned_data = {}
+      returned_data['data']=file_list
+      #print('AdminAnalysisHandler # Get Method # Analysis Calls # ', returned_data)
+      self.write(json.dumps(returned_data))
       
 class IndexHandler(tornado.web.RequestHandler):
    def get(self):

@@ -238,7 +238,7 @@ function loadanalysis(){
       			{ "data": "target" },
       			{ "data": "calldate" },
       			{ "data": "analysisimage"},
-               { "data": "status","render":function(data,type,full) {if(data=='A') { return 'Active' } else {return 'Expired'}}  },
+            { "data": "status","render":function(data,type,full) {if(data=='A') { return 'Active' } else {return 'Expired'}}  },
       			{ "data": "", "render":function(data,type,full){return '<button> Edit </button>'}}
     		]
   		});
@@ -332,6 +332,7 @@ function toggle(id) { //alert(id)
    $('#mainLeaderboard').find('#content4').hide()
    $('#mainLeaderboard').find('#content5').hide()
    $('#mainLeaderboard').find('#content6').hide()
+   $('#mainLeaderboard').find('#content7').hide()
 
    if(id=='#content1')
       weeklycalls()
@@ -345,7 +346,9 @@ function toggle(id) { //alert(id)
       loadindicatorcustomer()
     else if(id=="#content6")
       loadmessages()
-   else {
+    else if(id=="#content7")
+      loadindicatorfiles()
+    else {
       //e.preventDefault()
       alert("Work in Progress")
       return false
@@ -448,6 +451,98 @@ function loadmessages(){
     } else { 
       messagedatatable.ajax.reload()
     }
+}
+
+var indicatorFilesdatatable
+//$(document).ready(function () {
+function loadindicatorfiles(){
+  if ( ! $.fn.DataTable.isDataTable( '#indicatorlist') ) { 
+      indicatorFilesdatatable = $('#indicatorlist').DataTable({
+        "ajax": {
+            "dataType": 'json',
+            "contentType": "application/json",
+            "type": "get",
+            "url":"/admin/indicatorfiles"
+        },
+        "columns": [
+            { "data": "eid"},
+            { "data": "filename" },
+            { "data": "url" },
+            { "data": "date" },
+            { "data": "", "render":function(data,type,full){return '<button> Delete </button>'}}
+        ]
+      });
+    } else { 
+      indicatorFilesdatatable.ajax.reload()
+    }
+
+    $('#indicatorlist tbody').on( 'click', 'button', function () {
+        var data = indicatorFilesdatatable.row($(this).parents('tr')).data();
+        console.log(data['eid'])
+        deleteindicatorfile(data);
+    });
+}
+
+$(document).ready(function () {
+   $("#uploadForm").submit(function (event) {
+      //disable the default form submission
+      event.preventDefault();
+      //grab all form data  
+      var formData = new FormData($("#uploadForm")[0]);
+      $.ajax({
+         url: '/admin/indicatorfiles',
+         type: 'post',
+         data: formData,
+         async: false,
+         cache: false,
+         contentType: false,
+         processData: false,
+         success: function(data) {
+            response_data = $.parseJSON(data)
+
+            console.log(response_data)
+            var id = response_data['id'];
+
+            if(id=='0')
+              alert("Please select a file to upload")
+            else {
+              $("#uploadForm")[0].reset()
+              indicatorFilesdatatable.ajax.reload()
+              alert("Success")
+            }
+         },
+         error:function(data){
+            console.log(data)
+            alert('Error Occured')
+         }
+      });
+      return false;
+   })
+});
+
+function deleteindicatorfile(data) {
+  $.ajax({
+     url: '/admin/indicatorfiles?id='+data['eid']+'&filename='+data['filename'],
+     type: 'put',
+     async: false,
+     cache: false,
+     contentType: false,
+     processData: false,
+     success: function(data) {
+        response_data = $.parseJSON(data)
+
+        console.log(response_data)
+        $("#uploadForm")[0].reset()
+        indicatorFilesdatatable.ajax.reload()
+        alert("Success")
+      
+     },
+     error:function(data){
+        console.log(data)
+        alert('Error Occured')
+     }
+  });
+  return false;
 }
 
 

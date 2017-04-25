@@ -44,7 +44,7 @@
          .historicalCallForm h2, .historicalCallForm label, .myForm h2, .myForm label, .weeklyCallForm h2, .weeklyCallForm label, #mySidebar {font-family:Georgia, Times, "Times New Roman", serif;}
          .form_hint, .required_notification {font-size: 11px;}
 
-         .myForm ul, .weeklyCallForm ul, .historicalCallForm ul {
+         .myForm ul, .weeklyCallForm ul, .historicalCallForm ul, .uploadForm ul {
             /*width:750px;*/
             list-style-type:none;
             list-style-position:outside;
@@ -52,21 +52,21 @@
             padding:0px;
          }
          
-         .myForm li, .weeklyCallForm li, .historicalCallForm li{
+         .myForm li, .weeklyCallForm li, .historicalCallForm li, .uploadForm li{
             padding:7px; 
             border-bottom:1px solid #eee;
             position:relative;
          }
 
-         .myForm li:first-child, .weeklyCallForm li:first-child ..historicalCallForm li:first-child {
+         .myForm li:first-child, .weeklyCallForm li:first-child ..historicalCallForm li:first-child, .uploadForm li:first-child {
             border-bottom:1px solid #777;
          }
 
-         .myForm tr, .weeklyCallForm tr, .historicalCallForm tr {
+         .myForm tr, .weeklyCallForm tr, .historicalCallForm tr, .uploadForm tr {
             border-bottom:1px solid #777;
          }
 
-         .myForm h2, .weeklyCallForm h2, .historicalCallForm h2 {
+         .myForm h2, .weeklyCallForm h2, .historicalCallForm h2, .uploadForm h2 {
             margin:0;
             display: inline;
             font-size: 24px;
@@ -79,7 +79,7 @@
             float:right;
          }
 
-         .myForm label, .weeklyCallForm label, .historicalCallForm label {
+         .myForm label, .weeklyCallForm label, .historicalCallForm label, .uploadForm label {
             width:150px;
             margin-top: 3px;
             display:inline-block;
@@ -87,15 +87,15 @@
             padding:3px;
          }
 
-         .myForm input, .weeklyCallForm input, .historicalCallForm input {
+         .myForm input, .weeklyCallForm input, .historicalCallForm input, .uploadForm input {
             height:30px; 
             width:220px; 
             padding:5px 8px;
          }
          .myForm textarea {padding:8px; width:300px;}
-         .myForm button, .weeklyCallForm button, .historicalCallForm button {margin-left:156px;}
+         .myForm button, .weeklyCallForm button, .historicalCallForm button, .uploadForm button {margin-left:156px;}
 
-         .myForm input, .myForm textarea, .weeklyCallForm input, .historicalCallForm input { 
+         .myForm input, .myForm textarea, .weeklyCallForm input, .historicalCallForm input, .uploadForm input { 
              border:1px solid #aaa;
              box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
              border-radius:2px;
@@ -158,7 +158,7 @@
              transition: padding .25s;
          }
 
-         .myForm input, .myForm textarea, .weeklyCallForm input, .historicalCallForm input {
+         .myForm input, .myForm textarea, .weeklyCallForm input, .historicalCallForm input, .uploadForm input {
             padding-right:30px;
          }
 
@@ -209,6 +209,7 @@
          <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content4')"><strong>Registration</strong></a>
          <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content5')"><strong>Indicator</strong></a>
          <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content6')"><strong>Message</strong></a>
+         <a class="w3-bar-item w3-button w3-hover-black" href="javascript:toggle('#content7')"><strong>Upload Files</strong></a>
       </nav>
 
       <!-- Overlay effect when opening sidebar on small screens -->
@@ -573,7 +574,49 @@
                         </tfoot>
                      </table>
                   </div>
+               </section>
 
+               <section id="content7" style="border-top: 0px">
+                  <form id='uploadForm' class="uploadForm" name="uploadForm" action="javascript:;" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                     <table style="min-width: 100%">
+                        <tr>
+                           <td style="width:55%;padding-top:0;vertical-align: top;">
+                              <ul>
+                              <li>
+                                 <h2>Upload Indicator Files</h2>
+                              </li>
+                              <li>
+                                 <input type="file" name="file" id="file" style="height:40px;width: 350px;margin-top: 10px;padding: 0px;" required/>
+                              </li>
+                              <li><button type="submit" class="submit" id=submitButton>Upload</button></li>
+                              </ul>
+                           </td>
+                        </tr>
+                     </table>
+                  </form>
+                  <br>
+                  <div><strong>Indicator Files</strong></div>
+                  <hr>
+                  <table id="indicatorlist" class="display" cellspacing="0" width="100%">
+                     <thead>
+                        <tr>
+                           <th style="width:10%">ID</th>
+                           <th style="width:15%">File Name</th>
+                           <th style="width:45%">URL</th>
+                           <th style="width:15%">Date</th>
+                           <th style="width:15%">Delete</th>
+                        </tr>
+                     </thead>
+                     <tfoot>
+                        <tr>
+                           <th style="width:10%">ID</th>
+                           <th style="width:15%">File Name</th>
+                           <th style="width:45%">URL</th>
+                           <th style="width:15%">Date</th>
+                           <th style="width:15%">Delete</th>
+                        </tr>
+                     </tfoot>
+                  </table>
                </section>
             </div>
          </div>
