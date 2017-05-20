@@ -766,21 +766,23 @@
             opacity:0.7 }
   
   .stock { width: 25%; }
-  .stdate { width: 20%; }
+  .stdate { width: 15%; }
   .stentry { width: 10%;}
-  .ststoploss { width: 15%; }
-  .sttarget { width: 15%; }
-  .stgain { width: 15%; }
+  .ststoploss { width: 10%; }
+  .sttarget { width: 10%; }
+  .ststatus { width: 18%; margin-right: 5px }
+  .stgain { width: 10%; }
   
   .success {
     border-radius:none;
     border:0;
    }
   
-   #ex1 {max-width:50% }
+   #ex1 {max-width:60% }
    
    @media (max-width: 767px) {
    #ex1 {max-width:80%; }
+   .ststatus{margin-bottom: 2px}
   .accordion-xs .headings { display: none; }
   
   .accordion-xs .tr { border-bottom-color: #fff; }

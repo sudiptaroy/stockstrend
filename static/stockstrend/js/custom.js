@@ -109,11 +109,39 @@ function lastweekperformance() {
             divHTML=divHTML+'<div class="td ststoploss">'+value.stoploss+'</div>'
             divHTML=divHTML+'<div class="td sttarget">'+value.target+'</div>'
             if(value.result=='P') {
-               divHTML=divHTML+'<div class="td stgain btn-success">Target Hit</div>'
+               divHTML=divHTML+'<div class="td ststatus btn-success">Target Hit</div>'
             } else if(value.result=='L') {
-               divHTML=divHTML+'<div class="td stgain btn-danger">Stoploss Hit</div>'
+               divHTML=divHTML+'<div class="td ststatus btn-danger">Stoploss Hit</div>'
+            } else if(value.result=='E') {
+                if(parseInt(value.exitprice) > parseInt(value.entryprice))
+                  divHTML=divHTML+'<div class="td ststatus btn-success">Position Closed</div>'
+                else
+                  divHTML=divHTML+'<div class="td ststatus btn-danger">Position Closed</div>'
             } else {
-               divHTML=divHTML+'<div class="td stgain btn-success">Ongoing</div>'
+               divHTML=divHTML+'<div class="td ststatus btn-success">Ongoing</div>'
+            }
+            if(value.action=='B') {
+               if(value.result=='P') {
+                  divHTML=divHTML+'<div class="td stgain btn-success">'+ (parseInt(value.target) - parseInt(value.entryprice)) +'</div>'
+               } else if(value.result=='L') {
+                  divHTML=divHTML+'<div class="td stgain btn-danger">'+ ( parseInt(value.entryprice)- parseInt(value.stoploss))+'</div>'
+               } else if(value.result=='E') {
+                  if(parseInt(value.exitprice) > parseInt(value.entryprice))
+                     divHTML=divHTML+'<div class="td stgain btn-success">'+ (parseInt(value.exitprice) - parseInt(value.entryprice)) +'</div>'
+                  else
+                     divHTML=divHTML+'<div class="td stgain btn-danger">'+ ( parseInt(value.entryprice)- parseInt(value.exitprice))+'</div>'
+               }
+            } else {
+               if(value.result=='P') {
+                  divHTML=divHTML+'<div class="td stgain btn-success">'+ ( parseInt(value.entryprice)-parseInt(value.target)) +'</div>'
+               } else if(value.result=='L') {
+                  divHTML=divHTML+'<div class="td stgain btn-danger">'+ ( parseInt(value.stoploss) - parseInt(value.entryprice))+'</div>'
+               } else if(value.result=='E') {
+                  if(parseInt(value.exitprice) < parseInt(value.entryprice))
+                     divHTML=divHTML+'<div class="td stgain btn-success">'+ (parseInt(value.entryprice)-parseInt(value.exitprice)) +'</div>'
+                  else
+                     divHTML=divHTML+'<div class="td stgain btn-danger">'+ ( parseInt(value.exitprice)-parseInt(value.entryprice))+'</div>'
+               }
             }
             divHTML=divHTML+'</div></div></div>'
             console.log(divHTML)
@@ -233,14 +261,22 @@ function analysiscall() {
 
 function getcurrentweek() {
   var curr = new Date; // get current date
-  var first = curr.getDate() - (curr.getDay()-1); // First day is the day of the month - the day of the week
-  var last = first + 6; // last day is the first day + 6
+  //alert(curr.getDay())
 
+  var first
+  if(curr.getDay()>5) 
+    first = curr.getDate() + (8-curr.getDay()) 
+  else
+    first = curr.getDate() - (curr.getDay()-1);
+  
+  // First day is the day of the month - the day of the week
+  var last = first + 4; // last day is the first day + 6
   var firstday = new Date(curr.setDate(first));
+  curr = new Date()
   var lastday = new Date(curr.setDate(last));
-
-  firstdayStr = firstday.getUTCDate()+'/'+(firstday.getUTCMonth()+1)+'/'+firstday.getUTCFullYear()
-  lastdayStr = lastday.getUTCDate()+'/'+(lastday.getUTCMonth()+1)+'/'+lastday.getUTCFullYear()
+  
+  firstdayStr = firstday.getDate()+'/'+(firstday.getMonth()+1)+'/'+firstday.getFullYear()
+  lastdayStr = lastday.getDate()+'/'+(lastday.getMonth()+1)+'/'+lastday.getFullYear()
 
   weekdates='Weekly Calls('+firstdayStr+' - '+lastdayStr+')'
   $('#weeklycalldate').text(weekdates)

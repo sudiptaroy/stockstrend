@@ -262,7 +262,7 @@
                                  </li>
                                  <li>
                                     <label for="action" > Result: </label>
-                                    <span><select id="result" name="result"><option value='O'>Ongoing-Call</option><option value='P'>Target Hit</option><option value='L'>Stoploss Hit</option></select></span>
+                                    <span><select id="result" name="result"><option value='O'>Ongoing-Call</option><option value='P'>Target Hit</option><option value='L'>Stoploss Hit</option><option value='E'>Position Closed</option></select><input type="number" step="any" name="exitprice" id="exitprice" value="0" style="margin-left: 10px" required /></span>
                                  </li>
                                  <li><button type="submit" class="submit" id=submitButton>Save</button><button style="margin-left:20px" class="submit" type=reset id="resetButton" onclick="javascript:clearweeklycallformhidden(); return true;">Reset</button></li>
                                  </ul>
@@ -285,6 +285,7 @@
                               <th>Date</th>
                               <th>Status</th>
                               <th>Result</th>
+                              <th>Exit Price</th>
                               <th>Edit</th>
                            </tr>
                         </thead>
@@ -299,6 +300,7 @@
                               <th>Date</th>
                               <th>Status</th>
                               <th>Result</th>
+                              <th>Exit Price</th>
                               <th>Edit</th>
                            </tr>
                         </tfoot>
@@ -348,7 +350,7 @@
                                  </li>
                                  <li>
                                     <label for="action" > Result: </label>
-                                    <span><select id="result" name="result"><option value='O'>Ongoing-Call</option><option value='P'>Target Hit</option><option value='L'>Stoploss Hit</option></select></span>
+                                    <span><select id="result" name="result"><option value='O'>Ongoing-Call</option><option value='P'>Target Hit</option><option value='L'>Stoploss Hit</option><option value='E'>Position Closed</option></select><input type="number" step="any" name="exitprice" id="exitprice" value="0"  style="margin-left: 10px" required /></span>
                                  </li>
                                  <li><button type="submit" class="submit" id=submitButton>Save</button><button style="margin-left:20px" class="submit" type=reset id="resetButton" onclick="javascript:clearweeklycallformhidden(); return true;">Reset</button></li>
                                  </ul>
@@ -370,6 +372,7 @@
                              <th>Date</th>
                              <th>Status</th>
                              <th>Result</th>
+                             <th>Exit Price</th>
                              <th>Edit</th>
                           </tr>
                        </thead>
@@ -384,6 +387,7 @@
                              <th>Date</th>
                              <th>Status</th>
                              <th>Result</th>
+                             <th>Exit Price</th>
                              <th>Edit</th>
                           </tr>
                        </tfoot>

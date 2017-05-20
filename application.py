@@ -15,9 +15,9 @@ import datetime as dt
 define("port", default=8888, help="run on the given port", type=int)
 public_root = os.path.join(os.path.dirname(__file__), '')
 
-UPLOAD_FOLDER = 'C:/Users/Raj/Desktop/StocksTrend.in/static/adminsite/uploadedimages/'
-INDICATOR_FILE_FOLDER = 'C:/Users/Raj/Desktop/StocksTrend.in/static/indicatorfiles/'
-DB_FOLDER = 'C:/Users/Raj/Desktop/StocksTrend.in/DB/db.json'
+UPLOAD_FOLDER = '/home/ubuntu/StocksTrend.in/static/adminsite/uploadedimages/'
+INDICATOR_FILE_FOLDER = '/home/ubuntu/StocksTrend.in/static/indicatorfiles/'
+DB_FOLDER = '/home/ubuntu/StocksTrend.in/DB/db.json'
 
 class Application(tornado.web.Application):
    def __init__(self):
@@ -86,6 +86,8 @@ class AdminWeeklyCallHandler(tornado.web.RequestHandler):
          data = json.dumps(item)
          data_obj = json.loads(data)
          data_obj['eid'] = item.eid
+         if not 'exitprice' in data_obj:
+            data_obj['exitprice']=0
          weekly_call.append(data_obj)
       #print('AdminWeeklyCallHandlerr # Get Method # Weely Calls # ', weekly_call)
       returned_data = {}
@@ -111,9 +113,10 @@ class AdminWeeklyCallHandler(tornado.web.RequestHandler):
       weeklycall['date']=self.get_argument('calldate','');
       weeklycall['result']=self.get_argument('result','');
       weeklycall['status']=self.get_argument('status','');
+      weeklycall['exitprice']=self.get_argument('exitprice','0');
       
       if eid > 0:
-         print('AdminWeeklyCallHandlerr # Post Method # Updating Weekly Call with ID :',eid)
+         print('AdminWeeklyCallHandlerr # Post Method # Updating Weekly Call with ID :',weeklycall)
          callid = table.update(weeklycall, eids=[eid])  
       else :
          print('AdminWeeklyCallHandlerr # Post Method # Inserting Weekly Call #',weeklycall)
@@ -137,6 +140,8 @@ class AdminHistoricalCallHandler(tornado.web.RequestHandler):
          data = json.dumps(item)
          data_obj = json.loads(data)
          data_obj['eid'] = item.eid
+         if not 'exitprice' in data_obj:
+            data_obj['exitprice']=0
          historical_calls.append(data_obj)
 
       returned_data = {}
@@ -380,14 +385,15 @@ class StockstrendCallPerformanceHandler(tornado.web.RequestHandler):
       #Last Monday  : today - datetime.timedelta(days=today.weekday())
       # Previous Week Monday : today - datetime.timedelta(days=today.weekday(),weeks=1)
       # We will get the both the Sunday hence adding one more day to subtract
-      lastSunday = today - dt.timedelta(days=today.weekday()+1)
-      previousSunday = today - dt.timedelta(days=today.weekday()+1,weeks=1)
+      days_counter=[2,3,4,5,6,0,1]
+      lastSaturday = today - dt.timedelta(days=days_counter[today.weekday()])
+      previousSaturday = today - dt.timedelta(days=days_counter[today.weekday()],weeks=1)
 
       filtered_calls = list()
       for call in sorted_calls:
          calldate = call['date'].date()
          #print(calldate)
-         if previousSunday <= calldate <= lastSunday:
+         if previousSaturday < calldate < lastSaturday:
             call['date'] = str(calldate)
             filtered_calls.append(call)
          

@@ -18,7 +18,8 @@ function weeklycalls(){
             { "data": "target" },
             { "data": "date" },
             { "data": "status","render":function(data,type,full) {if(data=='A') { return 'Active' } else {return 'Expired'}}  },
-            { "data": "result","render":function(data,type,full) {if(data=='P') { return 'Target Hit' } else if(data=='L') {return 'Stoploss Hit'} else {return 'Ongoing-Call'}}  },
+            { "data": "result","render":function(data,type,full) {if(data=='P') { return 'Target Hit' } else if(data=='L') {return 'Stoploss Hit'} else if(data=='E') {return 'Position Closed'} else {return 'Ongoing-Call'}}  },
+            { "data": "exitprice" },
             { "data": "", "render":function(data,type,full){return '<button> Edit </button>'}}
          ]
       })
@@ -112,7 +113,8 @@ function loadhistoricalcalls(){
         		{ "data": "target" },
         		{ "data": "date" },
         		{ "data": "status","render":function(data,type,full) {if(data=='A') { return 'Active' } else {return 'Expired'}}  },
-        		{ "data": "result","render":function(data,type,full) {if(data=='P') { return 'Target Hit' } else {return 'Stoploss Hit'}}  },
+        		{ "data": "result","render":function(data,type,full) {if(data=='P') { return 'Target Hit' } else if(data=='E') {return 'Position Closed'} else {return 'Stoploss Hit'}}  },
+            { "data": "exitprice" },
             { "data": "", "render":function(data,type,full){return '<button> Edit </button>'}}
         	]
   		})
